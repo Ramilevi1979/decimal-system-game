@@ -1,0 +1,700 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>בנק המספרים של אלודי</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+/* Layout: a squared maths notebook. One paper sheet per mode; base-ten blocks and four place colours (thousands, hundreds, tens, ones) are the visual language everywhere. Place-value rows always run left to right (thousands on the left) so they match how the digits are written. */
+:root{
+  --bg:#f4f7fb; --grid:#dfe7f2; --paper:#ffffff; --paper2:#eef3f9; --ink:#1b2742; --muted:#5b6784; --line:#cdd7e6;
+  --th:#6b4fd8; --th-soft:#ebe6fc; --th-deep:#4a33a8;
+  --hu:#2b78d8; --hu-soft:#e1eefc; --hu-deep:#1c58a5;
+  --te:#0f9d78; --te-soft:#dcf5ed; --te-deep:#0a7358;
+  --on:#e8940c; --on-soft:#fdeed3; --on-deep:#9a5f04;
+  --solid-ink:#ffffff;
+  --btn:#1b2742; --btn-ink:#ffffff;
+  --go:#0c7a5b; --go-ink:#ffffff;
+  --good:#0c6b50; --good-soft:#dcf5ed;
+  --warn:#7d5200; --warn-soft:#fff0cf;
+  --bad:#a02a57; --bad-soft:#fde6ee;
+  --shadow:0 2px 0 rgba(27,39,66,.07),0 10px 28px rgba(27,39,66,.07);
+  --display:'Secular One','Rubik',Arial,sans-serif;
+  --body:'Rubik',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1626; --grid:#18243b; --paper:#16213a; --paper2:#1c2a47; --ink:#e9eefb; --muted:#9fb0d0; --line:#2b3a5c;
+  --th:#8f78f0; --th-soft:#2a2552; --th-deep:#bcadff;
+  --hu:#4d97f0; --hu-soft:#17335a; --hu-deep:#8bbcff;
+  --te:#2fc79d; --te-soft:#0f3a33; --te-deep:#6fe0bf;
+  --on:#f5ac2b; --on-soft:#46320c; --on-deep:#ffc965;
+  --solid-ink:#0e1626; --btn:#e9eefb; --btn-ink:#0e1626; --go:#2fc79d; --go-ink:#06251d;
+  --good:#8ceccf; --good-soft:#0f3a33; --warn:#ffd27a; --warn-soft:#46320c; --bad:#ffa6c0; --bad-soft:#4a1a2c;
+  --shadow:0 2px 0 rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1626; --grid:#18243b; --paper:#16213a; --paper2:#1c2a47; --ink:#e9eefb; --muted:#9fb0d0; --line:#2b3a5c;
+  --th:#8f78f0; --th-soft:#2a2552; --th-deep:#bcadff;
+  --hu:#4d97f0; --hu-soft:#17335a; --hu-deep:#8bbcff;
+  --te:#2fc79d; --te-soft:#0f3a33; --te-deep:#6fe0bf;
+  --on:#f5ac2b; --on-soft:#46320c; --on-deep:#ffc965;
+  --solid-ink:#0e1626; --btn:#e9eefb; --btn-ink:#0e1626; --go:#2fc79d; --go-ink:#06251d;
+  --good:#8ceccf; --good-soft:#0f3a33; --warn:#ffd27a; --warn-soft:#46320c; --bad:#ffa6c0; --bad-soft:#4a1a2c;
+  --shadow:0 2px 0 rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.25); color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;
+  padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;touch-action:manipulation}
+button:disabled{cursor:not-allowed}
+:focus-visible{outline:3px solid var(--hu);outline-offset:2px}
+.app{max-width:780px;margin:0 auto;display:grid;gap:14px}
+.p0{--pc:var(--on);--pcs:var(--on-soft);--pcd:var(--on-deep)}
+.p1{--pc:var(--te);--pcs:var(--te-soft);--pcd:var(--te-deep)}
+.p2{--pc:var(--hu);--pcs:var(--hu-soft);--pcd:var(--hu-deep)}
+.p3{--pc:var(--th);--pcs:var(--th-soft);--pcd:var(--th-deep)}
+
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(1.7rem,6vw,2.4rem);line-height:1.1;margin:0;text-wrap:balance}
+.sub{margin:3px 0 0;color:var(--muted);font-size:.95rem}
+.hud{display:flex;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1.5px solid var(--line);border-radius:999px;padding:6px 13px;font-weight:500}
+.stars b{font-variant-numeric:tabular-nums;font-family:var(--display);font-weight:400;font-size:1.15rem}
+.starg{color:var(--on)}
+
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 4px);z-index:5;box-shadow:var(--shadow)}
+.tabs button{padding:10px 6px;border-radius:10px;color:var(--muted);font-weight:700}
+.tabs button.on{background:var(--btn);color:var(--btn-ink)}
+
+.sheet{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:clamp(14px,3vw,22px);display:grid;gap:14px;min-width:0}
+h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
+.lead{margin:0;color:var(--muted);max-width:62ch}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row.center{justify-content:center}
+
+.btn{padding:11px 18px;border-radius:12px;font-weight:700;background:var(--btn);color:var(--btn-ink)}
+.btn.go{background:var(--go);color:var(--go-ink)}
+.btn.soft{background:var(--paper2);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn:disabled{opacity:.45}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.pill{padding:8px 15px;border-radius:999px;background:var(--paper2);box-shadow:inset 0 0 0 1.5px var(--line);font-weight:500;font-variant-numeric:tabular-nums}
+.pill.on{background:var(--btn);color:var(--btn-ink);box-shadow:none}
+
+/* blocks */
+.blk{display:block;flex:none;background-color:var(--pc);border-radius:calc(3px*var(--k,1));box-shadow:inset 0 0 0 1.5px var(--pcd)}
+.b-u{width:calc(14px*var(--k,1));height:calc(14px*var(--k,1))}
+.b-r{width:calc(14px*var(--k,1));height:calc(56px*var(--k,1));background-image:linear-gradient(to bottom,transparent calc(100% - 1.5px),rgba(255,255,255,.65) 0);background-size:100% 10%}
+.b-f,.b-c{width:calc(56px*var(--k,1));height:calc(56px*var(--k,1));background-image:linear-gradient(to bottom,transparent calc(100% - 1.5px),rgba(255,255,255,.55) 0),linear-gradient(to right,transparent calc(100% - 1.5px),rgba(255,255,255,.55) 0);background-size:10% 10%}
+.b-c{box-shadow:inset 0 0 0 1.5px var(--pcd),calc(6px*var(--k,1)) calc(-6px*var(--k,1)) 0 -1px var(--pcd);margin-inline-end:calc(6px*var(--k,1));margin-top:calc(6px*var(--k,1))}
+.stack{display:flex;flex-wrap:wrap;gap:calc(4px*var(--k,1));align-content:flex-start;justify-content:center;min-height:62px}
+.stack.mini{min-height:26px}
+.more{align-self:center;font-weight:700;font-size:.8rem;color:var(--pcd)}
+
+/* legend */
+.legend{direction:ltr;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.lg{direction:rtl;background:var(--pcs);border-radius:12px;padding:8px 4px;display:grid;justify-items:center;gap:6px;text-align:center;align-content:space-between}
+.lg .gl{display:flex;align-items:flex-end;height:48px}
+.lg b{color:var(--pcd);font-size:.9rem;display:block}
+.lg span{font-size:.78rem;color:var(--muted);line-height:1.3;display:block}
+
+/* digits */
+.numrow{direction:ltr;unicode-bidi:isolate;display:flex;align-items:flex-start;justify-content:center;gap:4px;flex-wrap:nowrap}
+.dgw{display:grid;justify-items:center;gap:3px}
+.dg{font-family:var(--display);font-size:clamp(2.4rem,11vw,3.7rem);line-height:1.05;color:var(--pcd);border-radius:12px;padding:0 3px;font-variant-numeric:tabular-nums}
+.dg .cm{color:var(--muted);font-size:.7em}
+.dg.plain{color:var(--ink)}
+.dg.dim{color:var(--ink);opacity:.5}
+.dg.hl{background:var(--pcs);box-shadow:inset 0 0 0 3px var(--pc);padding:0 8px}
+.dgw small{font-size:.72rem;color:var(--pcd);font-weight:500}
+
+.readout{background:var(--paper2);border-radius:14px;padding:12px;display:grid;gap:8px;justify-items:center;text-align:center}
+.eq{color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums;text-wrap:balance}
+.words{font-weight:500;text-wrap:balance}
+.coach{border-radius:12px;padding:10px 14px;background:var(--warn-soft);color:var(--warn);font-weight:500;min-height:3.4em;display:flex;align-items:center}
+.coach.ok{background:var(--good-soft);color:var(--good)}
+
+/* explore board */
+.board{direction:ltr;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.col{direction:rtl;background:var(--pcs);border:2px solid var(--pc);border-radius:14px;padding:8px 6px;display:grid;gap:8px;align-content:start;text-align:center;min-width:0}
+.chead b{display:block;color:var(--pcd);font-size:.98rem}
+.chead span{display:block;color:var(--muted);font-size:.78rem}
+.cnum{font-family:var(--display);font-size:2rem;line-height:1.3;color:var(--pcd);background:var(--paper);border-radius:10px;font-variant-numeric:tabular-nums}
+.cnum.over{background:var(--bad-soft);color:var(--bad)}
+.cctl{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rb{height:42px;border-radius:10px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--pc);font-size:1.4rem;font-weight:700;color:var(--pcd)}
+.rb:disabled{opacity:.4}
+.rb:active:not(:disabled){transform:translateY(1px)}
+.xb{font-size:.74rem;line-height:1.25;padding:6px 4px;border-radius:9px;background:var(--btn);color:var(--btn-ink);font-weight:500;min-height:48px}
+.xb:disabled{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line);opacity:.65}
+.xb.ready{background:var(--go);color:var(--go-ink);font-weight:700}
+.xb.ghost{visibility:hidden}
+.flash{animation:flash .7s ease-out}
+@keyframes flash{0%{box-shadow:0 0 0 0 var(--pc)}100%{box-shadow:0 0 0 16px transparent}}
+
+/* bank */
+.mission{display:flex;gap:8px;flex-wrap:wrap;align-items:stretch}
+.mchip{background:var(--btn);color:var(--btn-ink);border-radius:10px;padding:8px 14px;font-weight:700;white-space:nowrap}
+.rule{flex:1 1 220px;background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:8px 12px;font-weight:500}
+.target{display:grid;justify-items:center;gap:6px;background:var(--paper2);border:2px dashed var(--line);border-radius:14px;padding:14px 10px}
+.target .lab{color:var(--muted);font-weight:500}
+.notes{direction:ltr;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.note{direction:rtl;background:var(--pcs);border:2px solid var(--pc);border-radius:14px;padding:8px;display:grid;gap:8px;align-content:start;text-align:center;min-width:0}
+.note.locked{opacity:.5}
+.add{display:grid;gap:0;padding:10px 4px;border-radius:10px;background:var(--pcd);color:var(--solid-ink)}
+.add .nl{font-size:.82rem}
+.add .nv{font-family:var(--display);font-size:1.6rem;line-height:1.2}
+.add:disabled{background:var(--line);color:var(--muted)}
+.add:active:not(:disabled){transform:translateY(1px)}
+.ncount{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;align-items:center;gap:0 8px;justify-items:center}
+.ncount .rb{grid-row:1/3;width:40px;height:40px}
+.ncount b{font-family:var(--display);font-weight:400;font-size:1.6rem;line-height:1.1;color:var(--pcd);font-variant-numeric:tabular-nums}
+.ncount .ncl{font-size:.78rem;color:var(--muted)}
+.quick{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;min-height:0}
+.qb{font-size:.78rem;padding:5px 8px;border-radius:8px;background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--pc);color:var(--pcd);font-weight:700}
+.qb:disabled{opacity:.4}
+.totrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--paper2);border-radius:12px;padding:10px 14px}
+.tot{font-family:var(--display);font-size:1.9rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.msg{border-radius:12px;padding:10px 14px;font-weight:500;line-height:1.55}
+.msg.tip{background:var(--warn-soft);color:var(--warn)}
+.msg.try{background:var(--bad-soft);color:var(--bad)}
+.msg.good{background:var(--good-soft);color:var(--good)}
+
+/* quiz */
+.qprog{display:flex;gap:7px;justify-content:center}
+.qd{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.qd.now{box-shadow:0 0 0 3px var(--hu)}
+.qd.ok{background:var(--go)}
+.qd.no{background:var(--bad)}
+.qtag{color:var(--muted);font-weight:500;font-size:.9rem;text-align:center}
+.qprompt{font-size:1.25rem;font-weight:700;line-height:1.45;text-align:center;text-wrap:balance}
+.qnum{background:var(--paper2);border-radius:14px;padding:12px 8px;display:grid;justify-items:center;overflow-x:auto}
+.expr{font-size:1.2rem;font-weight:700;text-align:center;text-wrap:balance;padding:6px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.opt{padding:14px;border-radius:14px;background:var(--paper);box-shadow:inset 0 0 0 2px var(--line);font-weight:700;font-size:1.1rem;text-align:center;line-height:1.4;font-variant-numeric:tabular-nums}
+.opt:hover:not(:disabled){box-shadow:inset 0 0 0 2px var(--hu)}
+.opt:disabled{color:var(--ink)}
+.opt.ok{background:var(--good-soft);box-shadow:inset 0 0 0 2.5px var(--good);color:var(--good)}
+.opt.no{background:var(--bad-soft);box-shadow:inset 0 0 0 2.5px var(--bad);color:var(--bad)}
+.summary{display:grid;gap:12px;justify-items:center;text-align:center;padding:8px 0}
+.big{font-family:var(--display);font-size:3rem;line-height:1}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--btn);color:var(--btn-ink);padding:10px 16px;border-radius:12px;font-weight:500;z-index:60;max-width:calc(100% - 32px);text-align:center}
+.cf{position:fixed;top:-24px;width:10px;border-radius:2px;pointer-events:none;z-index:50;animation:fall 1.7s ease-in forwards}
+@keyframes fall{to{transform:translateY(108vh) rotate(540deg);opacity:.25}}
+@media (max-width:560px){
+  .notes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .legend .lg span{font-size:.72rem}
+  .xb{font-size:.7rem}
+}
+@media (prefers-reduced-motion:reduce){.cf{display:none}*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app" dir="rtl" lang="he">
+  <header class="top">
+    <div>
+      <h1>בנק המספרים של אלודי</h1>
+      <p class="sub">אלפים, מאות, עשרות ויחידות</p>
+    </div>
+    <div class="hud">
+      <span class="chip stars" title="הכוכבים שלכם"><span class="starg" aria-hidden="true">★</span><b id="stars">0</b></span>
+      <button class="chip" id="sfxBtn" aria-pressed="true">צלילים: פעילים</button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="חלקי המשחק">
+    <button role="tab" class="on" data-tab="explore" aria-selected="true">מכונת ההחלפות</button>
+    <button role="tab" data-tab="bank" aria-selected="false">הבנק</button>
+    <button role="tab" data-tab="quiz" aria-selected="false">חידות</button>
+  </nav>
+
+  <!-- EXPLORE -->
+  <section class="sheet" id="tab-explore">
+    <h2>מכונת ההחלפות</h2>
+    <p class="lead">כל 10 קוביות באותו מקום שוות לקוביה אחת במקום שמשמאלו. הוסיפו והסירו, ארזו ופרקו, ושימו לב שהמספר לא משתנה.</p>
+    <div class="legend" id="legend"></div>
+    <div class="row" id="presets"></div>
+    <div class="readout">
+      <div id="exNum"></div>
+      <div class="eq" id="exEq"></div>
+      <div class="words" id="exWords"></div>
+      <button class="btn soft" id="exSpeak">הקראה</button>
+    </div>
+    <div class="coach" id="exCoach" aria-live="polite"></div>
+    <div class="board" id="exBoard"></div>
+  </section>
+
+  <!-- BANK -->
+  <section class="sheet" id="tab-bank" hidden>
+    <h2>הבנק</h2>
+    <p class="lead">הפקידו בדיוק את הסכום שמופיע. הצבע של כל ספרה מראה באיזה שטר או מטבע משתמשים.</p>
+    <div class="mission"><span class="mchip" id="bkChip">משימה 1</span><span class="rule" id="bkRule"></span></div>
+    <div class="target">
+      <span class="lab">הסכום להפקדה</span>
+      <div id="bkTarget"></div>
+      <div class="words" id="bkWords"></div>
+      <button class="btn soft" id="bkSpeak">הקראה</button>
+    </div>
+    <div class="notes" id="bkNotes"></div>
+    <div class="totrow"><div><span class="lab" style="color:var(--muted)">הפקדתם עד עכשיו</span><div class="tot"><span id="bkTot">0</span> ₪</div></div><div id="bkDiff" style="font-weight:700"></div></div>
+    <div class="msg tip" id="bkMsg" aria-live="polite"></div>
+    <div class="msg good" id="bkReceipt" hidden></div>
+    <div class="row center">
+      <button class="btn soft" id="bkReset">התחלה מחדש</button>
+      <button class="btn soft" id="bkHint">רמז</button>
+      <button class="btn go" id="bkCheck">בדיקת ההפקדה</button>
+      <button class="btn go" id="bkNext" hidden>משימה הבאה</button>
+      <button class="btn" id="bkAlt" hidden>אותו מספר, דרך אחרת</button>
+      <button class="btn soft" id="bkNew">מספר חדש</button>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="sheet" id="tab-quiz" hidden>
+    <h2>חידות</h2>
+    <div id="qzBody"></div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+var PL=[
+  {s:'יחידה',p:'יחידות',name:'יחידות',val:1,cls:'p0'},
+  {s:'עשרה',p:'עשרות',name:'עשרות',val:10,cls:'p1'},
+  {s:'מאה',p:'מאות',name:'מאות',val:100,cls:'p2'},
+  {s:'אלף',p:'אלפים',name:'אלפים',val:1000,cls:'p3'}
+];
+var NOTE=['מטבע','מטבע','שטר','שטר'];
+var fmt=function(n){return n.toLocaleString('en-US')};
+var rnd=function(a,b){return a+Math.floor(Math.random()*(b-a+1))};
+var pick=function(a){return a[rnd(0,a.length-1)]};
+var shuffle=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=rnd(0,i);var t=a[i];a[i]=a[j];a[j]=t}return a};
+var digitsOf=function(n){return [n%10,Math.floor(n/10)%10,Math.floor(n/100)%10,Math.floor(n/1000)%10]};
+var valueOf=function(c){var s=0;for(var i=0;i<4;i++)s+=c[i]*PL[i].val;return s};
+var termStr=function(c,p){return fmt(c)+' '+(c===1?PL[p].s:PL[p].p)};
+var exprOf=function(c){var t=[];for(var p=3;p>=0;p--)if(c[p]>0)t.push(termStr(c[p],p));return t.join(' + ')||'0'};
+
+function words(n){
+  if(n===0)return 'אפס';
+  var th=Math.floor(n/1000),hu=Math.floor(n%1000/100),r=n%100;
+  var T=['','אלף','אלפיים','שלושת אלפים','ארבעת אלפים','חמשת אלפים','ששת אלפים','שבעת אלפים','שמונת אלפים','תשעת אלפים'];
+  var H=['','מאה','מאתיים','שלוש מאות','ארבע מאות','חמש מאות','שש מאות','שבע מאות','שמונה מאות','תשע מאות'];
+  var TE=['','עשר','עשרים','שלושים','ארבעים','חמישים','שישים','שבעים','שמונים','תשעים'];
+  var TN=['עשר','אחת עשרה','שתים עשרה','שלוש עשרה','ארבע עשרה','חמש עשרה','שש עשרה','שבע עשרה','שמונה עשרה','תשע עשרה'];
+  var U=['','אחת','שתיים','שלוש','ארבע','חמש','שש','שבע','שמונה','תשע'];
+  var parts=[];
+  if(th)parts.push(T[th]);
+  if(hu)parts.push(H[hu]);
+  if(r>=10&&r<20)parts.push(TN[r-10]);
+  else{ if(r>=20)parts.push(TE[Math.floor(r/10)]); if(r%10)parts.push(U[r%10]); }
+  if(parts.length>1)parts[parts.length-1]='ו'+parts[parts.length-1];
+  return parts.join(' ');
+}
+
+/* ---------- sound, speech, feedback ---------- */
+var actx=null,sfx=true;
+function ensureAudio(){try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();}catch(e){}}
+function tone(f,type,dur,delay,vol){
+  if(!sfx)return; ensureAudio(); if(!actx)return;
+  try{
+    var t=actx.currentTime+(delay||0)/1000,o=actx.createOscillator(),g=actx.createGain();
+    o.type=type;o.frequency.value=f;g.gain.setValueAtTime(vol||.1,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);
+    o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+dur);
+  }catch(e){}
+}
+var sClick=function(){tone(620,'sine',.07,0,.09)};
+var sPop=function(){tone(392,'triangle',.12,0,.12);tone(587,'triangle',.18,90,.12)};
+var sWin=function(){[440,554,659,880].forEach(function(f,i){tone(f,'triangle',.22,i*110,.12)})};
+var sBad=function(){tone(220,'sawtooth',.14,0,.08);tone(165,'sawtooth',.2,110,.08)};
+var tt;
+function toast(t){var e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(tt);tt=setTimeout(function(){e.hidden=true},2800)}
+function speak(t){
+  try{
+    if(!('speechSynthesis' in window)){toast('ההקראה לא נתמכת בדפדפן הזה');return}
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=.9;
+    var v=speechSynthesis.getVoices().filter(function(v){return /^he/i.test(v.lang)})[0];
+    if(v)u.voice=v; else toast('אין קול בעברית במכשיר הזה');
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function confetti(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var cols=['var(--th)','var(--hu)','var(--te)','var(--on)'];
+  for(var i=0;i<28;i++){
+    var e=document.createElement('i');e.className='cf';e.style.left=rnd(2,98)+'vw';e.style.background=cols[i%4];
+    e.style.width=rnd(7,12)+'px';e.style.height=rnd(10,18)+'px';e.style.animationDelay=(Math.random()*.5)+'s';
+    document.body.appendChild(e);(function(x){setTimeout(function(){x.remove()},2500)})(e);
+  }
+}
+var stars=0;
+try{stars=parseInt(localStorage.getItem('nb_stars'),10)||0}catch(e){}
+function addStars(n){stars+=n;$('#stars').textContent=stars;try{localStorage.setItem('nb_stars',String(stars))}catch(e){}}
+function flashEl(sel){var e=$(sel);if(!e)return;e.classList.remove('flash');void e.offsetWidth;e.classList.add('flash')}
+
+/* ---------- shared rendering ---------- */
+function renderBlocks(el,p,count,k,cap){
+  var kinds=['b-u','b-r','b-f','b-c'];
+  el.style.setProperty('--k',k);
+  var h='',shown=Math.min(count,cap);
+  for(var i=0;i<shown;i++)h+='<i class="blk '+kinds[p]+'"></i>';
+  if(count>cap)h+='<span class="more">+'+(count-cap)+'</span>';
+  el.innerHTML=h;
+}
+function digitsHTML(n,o){
+  o=o||{};
+  var d=digitsOf(n),len=String(n).length,h='<div class="numrow">';
+  for(var p=len-1;p>=0;p--){
+    var dc='dg';
+    if(o.hl!==undefined)dc+=(p===o.hl?' hl':' dim');
+    h+='<span class="dgw p'+p+'"><span class="'+dc+'">'+d[p]+((p===3&&len>3)?'<span class="cm">,</span>':'')+'</span>'+(o.labels?'<small>'+PL[p].name+'</small>':'')+'</span>';
+  }
+  return h+'</div>';
+}
+
+/* ---------- tabs ---------- */
+var TABS=['explore','bank','quiz'];
+function show(tab){
+  TABS.forEach(function(t){
+    $('#tab-'+t).hidden=(t!==tab);
+    var b=document.querySelector('[data-tab="'+t+'"]');
+    b.classList.toggle('on',t===tab);b.setAttribute('aria-selected',String(t===tab));
+  });
+  try{history.replaceState(null,'','#'+tab)}catch(e){}
+}
+document.querySelector('.tabs').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-tab]');if(!b)return;sClick();show(b.dataset.tab);
+});
+$('#sfxBtn').addEventListener('click',function(){
+  sfx=!sfx;ensureAudio();this.textContent=sfx?'צלילים: פעילים':'צלילים: מושתקים';this.setAttribute('aria-pressed',String(sfx));
+  if(sfx)sClick();
+});
+
+/* ---------- EXPLORE ---------- */
+var EXADD=19,EXMAX=29;
+var ex=digitsOf(2347);
+(function buildStatic(){
+  $('#legend').innerHTML=[3,2,1,0].map(function(p){
+    var kinds=['b-u','b-r','b-f','b-c'];
+    var note=p===0?'הכי קטנה':'שווה 10 '+PL[p-1].p;
+    return '<div class="lg '+PL[p].cls+'"><div class="gl" style="--k:.7"><i class="blk '+kinds[p]+'"></i></div><div><b>'+PL[p].s+'</b><span>'+fmt(PL[p].val)+'</span><span>'+note+'</span></div></div>';
+  }).join('');
+  $('#presets').innerHTML=[2347,1205,4090,3600].map(function(n){return '<button class="pill" data-n="'+n+'">'+fmt(n)+'</button>'}).join('')+'<button class="pill" data-n="0">מספר אקראי</button>';
+  $('#exBoard').innerHTML=[3,2,1,0].map(function(p){
+    var pack=p<3?'<button class="xb" id="xp'+p+'" data-a="pack" data-p="'+p+'">אריזה: 10 '+PL[p].p+' ל־1 '+PL[p+1].s+'</button>':'<button class="xb ghost" disabled tabindex="-1" aria-hidden="true">—</button>';
+    var unp=p>0?'<button class="xb" id="xu'+p+'" data-a="unpack" data-p="'+p+'">פירוק: 1 '+PL[p].s+' ל־10 '+PL[p-1].p+'</button>':'<button class="xb ghost" disabled tabindex="-1" aria-hidden="true">—</button>';
+    return '<div class="col '+PL[p].cls+'" id="xc'+p+'"><div class="chead"><b>'+PL[p].name+'</b><span>'+fmt(PL[p].val)+'</span></div><div class="cnum" id="xn'+p+'">0</div><div class="stack" id="xs'+p+'"></div><div class="cctl"><button class="rb" id="xm'+p+'" data-a="sub" data-p="'+p+'" aria-label="הסירו '+PL[p].s+'">−</button><button class="rb" id="xa'+p+'" data-a="add" data-p="'+p+'" aria-label="הוסיפו '+PL[p].s+'">+</button></div>'+pack+unp+'</div>';
+  }).join('');
+})();
+function exTotal(){return valueOf(ex)}
+function renderEx(){
+  var total=exTotal(),over=-1,zeros=false,p;
+  for(p=0;p<4;p++){if(ex[p]>=10&&over<0)over=p}
+  for(p=0;p<4;p++){
+    var c=ex[p];
+    $('#xn'+p).textContent=c;$('#xn'+p).classList.toggle('over',c>=10);
+    renderBlocks($('#xs'+p),p,c,c>9?.6:1,30);
+    $('#xa'+p).disabled=(c>=EXADD||total+PL[p].val>9999);
+    $('#xm'+p).disabled=(c<=0);
+    if(p<3){var pk=$('#xp'+p);pk.disabled=(c<10);pk.classList.toggle('ready',c>=10)}
+    if(p>0){$('#xu'+p).disabled=(c<1||ex[p-1]+10>EXMAX)}
+  }
+  var canon=(over<0);
+  $('#exNum').innerHTML=canon?digitsHTML(total,{labels:true}):'<div class="numrow"><span class="dg plain">'+fmt(total)+'</span></div>';
+  $('#exEq').textContent=exprOf(ex)+' = '+fmt(total);
+  $('#exWords').textContent=words(total);
+  var coach=$('#exCoach');
+  if(!canon){
+    coach.className='coach';
+    coach.textContent='יש '+ex[over]+' '+PL[over].p+'. כל 10 '+PL[over].p+' שוות 1 '+PL[over+1].s+'. לחצו על "אריזה" ותראו שהמספר נשאר אותו דבר.';
+  }else{
+    coach.className='coach ok';
+    var zs=[];for(p=3;p>=0;p--){if(ex[p]===0&&p<String(total).length)zs.push(PL[p].name)}
+    var t='בכל מקום יש פחות מ־10, אז כותבים ספרה אחת בכל מקום. ';
+    if(zs.length)t+='הספרה 0 אומרת שאין '+zs.join(' ו')+'. ';
+    t+='נסו לפרק אחת מהקוביות הגדולות לעשר קטנות.';
+    coach.textContent=t;
+  }
+}
+function exSet(n){ex=digitsOf(n);renderEx()}
+$('#presets').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-n]');if(!b)return;sClick();
+  var n=+b.dataset.n;
+  if(!n){n=rnd(1000,9999)}
+  exSet(n);
+});
+$('#exBoard').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-a]');if(!b||b.disabled)return;
+  var a=b.dataset.a,p=+b.dataset.p;
+  if(a==='add'){ex[p]++;sClick()}
+  else if(a==='sub'){ex[p]--;sClick()}
+  else if(a==='pack'){ex[p]-=10;ex[p+1]++;sPop();renderEx();flashEl('#xc'+(p+1));return}
+  else if(a==='unpack'){ex[p]--;ex[p-1]+=10;sPop();renderEx();flashEl('#xc'+(p-1));return}
+  renderEx();
+});
+$('#exSpeak').addEventListener('click',function(){speak(words(exTotal()))});
+
+/* ---------- BANK ---------- */
+var PROF=[
+  {b:[],t:'בנו את הסכום בכל שטר ומטבע שתרצו.',min:1000,max:9999},
+  {b:[3],t:'כספת האלפים נעולה. בלי שטרות של 1,000, בנו בעזרת מאות.',min:1000,max:5999},
+  {b:[2],t:'כספת המאות נעולה. בלי שטרות של 100, בנו בעזרת עשרות.',min:1000,max:9999},
+  {b:[3,2],t:'האלפים והמאות נעולים. אפשר להשתמש רק בעשרות וביחידות.',min:200,max:999},
+  {b:[3,2,1],t:'רק מטבעות של 1 ₪. יש קיצורים של 10 ושל 100.',min:120,max:299}
+];
+var bk={target:0,counts:[0,0,0,0],prof:0,n:0,mistakes:0,hints:0,done:false,hint:false};
+function BL(){return PROF[bk.prof].b}
+function bkTotal(){return valueOf(bk.counts)}
+function genNumber(){
+  var th=rnd(1,9),h=rnd(0,9),t=rnd(0,9),o=rnd(0,9);
+  if(Math.random()<.4)h=0; if(Math.random()<.35)t=0; if(Math.random()<.35)o=0;
+  return th*1000+h*100+t*10+o;
+}
+function genTarget(pi){
+  var pr=PROF[pi],n=rnd(pr.min,pr.max);
+  if(Math.random()<.45){var k=pick([10,100]),m=Math.floor(n/k)*k;if(m>=pr.min)n=m}
+  if(n>=1000&&Math.random()<.3){var hu=Math.floor(n/100)%10,m2=n-hu*100;if(m2>=pr.min)n=m2}
+  return n;
+}
+function greedy(target){
+  var rem=target,out=[0,0,0,0],bl=BL();
+  for(var p=3;p>=0;p--){if(bl.indexOf(p)>=0)continue;out[p]=Math.floor(rem/PL[p].val);rem-=out[p]*PL[p].val}
+  return out;
+}
+function quickOf(p){
+  var bl=BL(),q=[];
+  if(p<3&&bl.indexOf(p+1)>=0){q.push(10);if(p===0&&bl.indexOf(1)>=0&&bl.indexOf(2)>=0)q.push(100)}
+  return q;
+}
+function newMission(same){
+  var target=bk.target,pi;
+  if(bk.n===0){pi=0}
+  else if(same){
+    var c=[];for(var i=0;i<PROF.length;i++){if(i!==bk.prof&&target<=PROF[i].max)c.push(i)}
+    if(c.length){pi=pick(c)}else{same=false}
+  }
+  if(bk.n>0&&!same){var cs=[];for(var j=0;j<PROF.length;j++){if(j!==bk.prof)cs.push(j)}pi=pick(cs)}
+  if(!same||bk.n===0)target=genTarget(pi);
+  bk={target:target,counts:[0,0,0,0],prof:pi,n:bk.n+1,mistakes:0,hints:0,done:false,hint:false};
+  setupBank();
+}
+function buildBank(){
+  $('#bkNotes').innerHTML=[3,2,1,0].map(function(p){
+    return '<div class="note '+PL[p].cls+'" id="bn'+p+'">'+
+      '<button class="add" id="ba'+p+'" data-a="add" data-p="'+p+'" aria-label="הוסיפו '+NOTE[p]+' '+fmt(PL[p].val)+'"><span class="nl" id="bl'+p+'">'+NOTE[p]+'</span><span class="nv">'+fmt(PL[p].val)+'</span></button>'+
+      '<div class="ncount"><button class="rb" id="bm'+p+'" data-a="sub" data-p="'+p+'" aria-label="הסירו">−</button><b id="bc'+p+'">0</b><span class="ncl">'+PL[p].p+'</span></div>'+
+      '<div class="stack mini" id="bs'+p+'"></div><div class="quick" id="bq'+p+'"></div></div>';
+  }).join('');
+}
+function setupBank(){
+  var bl=BL();
+  $('#bkChip').textContent='משימה '+bk.n;
+  $('#bkRule').textContent=PROF[bk.prof].t;
+  for(var p=0;p<4;p++){
+    var locked=bl.indexOf(p)>=0;
+    $('#bn'+p).classList.toggle('locked',locked);
+    $('#bl'+p).textContent=locked?'נעול':NOTE[p];
+    $('#bq'+p).innerHTML=locked?'':quickOf(p).map(function(d){
+      return '<button class="qb" data-a="q" data-p="'+p+'" data-d="'+d+'" aria-label="הוסיפו '+d+'">+'+d+'</button><button class="qb" data-a="q" data-p="'+p+'" data-d="-'+d+'" aria-label="הסירו '+d+'">−'+d+'</button>';
+    }).join('');
+  }
+  $('#bkReceipt').hidden=true;
+  $('#bkNext').hidden=true;$('#bkAlt').hidden=true;
+  $('#bkCheck').hidden=false;$('#bkReset').hidden=false;$('#bkHint').hidden=false;
+  var m=$('#bkMsg');m.className='msg tip';m.hidden=false;m.textContent='רמז: התחילו מהמקום הגדול ביותר שאפשר להשתמש בו, ואז הוסיפו מקום אחרי מקום.';
+  renderBank();
+}
+function renderBank(){
+  var bl=BL(),tot=bkTotal(),diff=bk.target-tot;
+  $('#bkTarget').innerHTML=digitsHTML(bk.target,{labels:bk.hint});
+  $('#bkWords').textContent=words(bk.target)+' שקלים';
+  for(var p=0;p<4;p++){
+    var c=bk.counts[p],locked=bl.indexOf(p)>=0;
+    $('#bc'+p).textContent=c;
+    renderBlocks($('#bs'+p),p,c,c>9?.42:.55,24);
+    $('#ba'+p).disabled=locked||bk.done||c>=999;
+    $('#bm'+p).disabled=locked||bk.done||c<=0;
+    var qs=$('#bq'+p).querySelectorAll('button');
+    for(var i=0;i<qs.length;i++){qs[i].disabled=bk.done}
+  }
+  $('#bkTot').textContent=fmt(tot);
+  $('#bkDiff').textContent=bk.done?'בדיוק הסכום!':(diff>0?'חסרים '+fmt(diff)+' ₪':(diff<0?'עברתם ב־'+fmt(-diff)+' ₪':'בדיוק הסכום, אפשר לבדוק'));
+}
+function bkChange(p,d){
+  if(bk.done||BL().indexOf(p)>=0)return;
+  bk.counts[p]=Math.max(0,Math.min(999,bk.counts[p]+d));
+  $('#bkMsg').hidden=true;
+  renderBank();
+}
+$('#bkNotes').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-a]');if(!b||b.disabled)return;
+  var a=b.dataset.a,p=+b.dataset.p;sClick();
+  if(a==='add')bkChange(p,1);else if(a==='sub')bkChange(p,-1);else if(a==='q')bkChange(p,+b.dataset.d);
+});
+$('#bkReset').addEventListener('click',function(){sClick();if(bk.done)return;bk.counts=[0,0,0,0];var m=$('#bkMsg');m.hidden=false;m.className='msg tip';m.textContent='התחלנו מחדש. אפשר לנסות דרך אחרת.';renderBank()});
+$('#bkSpeak').addEventListener('click',function(){speak(words(bk.target)+' שקלים')});
+$('#bkHint').addEventListener('click',function(){
+  if(bk.done)return;sClick();bk.hints++;bk.hint=true;
+  var g=greedy(bk.target),p=3;while(p>0&&g[p]===0)p--;
+  var m=$('#bkMsg');m.hidden=false;m.className='msg tip';
+  m.textContent='עכשיו מופיעים שמות המקומות מתחת לספרות. כדאי להתחיל כך: '+termStr(g[p],p)+'.';
+  renderBank();
+});
+function bankSuccess(){
+  bk.done=true;
+  var st=(bk.mistakes===0&&bk.hints===0)?3:((bk.mistakes+bk.hints<=1)?2:1);
+  addStars(st);sWin();confetti();
+  var canon=digitsOf(bk.target),same=true,i;
+  for(i=0;i<4;i++){if(bk.counts[i]!==canon[i])same=false}
+  var h='<b>הפקדה נכונה! קיבלתם '+st+(st===1?' כוכב':' כוכבים')+'.</b><br>המספר במילים: '+words(bk.target)+'.<br>הרכבתם: '+exprOf(bk.counts)+'.';
+  if(!same){h+='<br>זו דרך אחרת מהכתיבה הרגילה, והסכום זהה.'}
+  else if(!BL().length){
+    var c2=canon.slice(),p=3;while(p>0&&c2[p]===0)p--;
+    if(p>0){c2[p]--;c2[p-1]+=10;h+='<br>אפשר גם: '+exprOf(c2)+'.'}
+  }
+  var r=$('#bkReceipt');r.innerHTML=h;r.hidden=false;
+  $('#bkMsg').hidden=true;
+  $('#bkCheck').hidden=true;$('#bkReset').hidden=true;$('#bkHint').hidden=true;
+  $('#bkNext').hidden=false;$('#bkAlt').hidden=false;
+  renderBank();
+}
+$('#bkCheck').addEventListener('click',function(){
+  if(bk.done)return;
+  var tot=bkTotal(),m=$('#bkMsg');m.hidden=false;
+  if(tot===bk.target){bankSuccess();return}
+  bk.mistakes++;sBad();
+  var diff=bk.target-tot,bl=BL(),p,tip='';
+  if(diff>0){
+    m.className='msg tip';
+    for(p=3;p>=0;p--){if(bl.indexOf(p)>=0)continue;var q=Math.floor(diff/PL[p].val);if(q>0){tip=' נסו להוסיף '+termStr(q,p)+'.';break}}
+    m.textContent='כמעט! הפקדתם '+fmt(tot)+' ₪ וחסרים עוד '+fmt(diff)+' ₪.'+tip;
+  }else{
+    m.className='msg try';
+    var over=-diff;
+    for(p=3;p>=0;p--){if(bl.indexOf(p)>=0||bk.counts[p]===0)continue;var q2=Math.min(bk.counts[p],Math.floor(over/PL[p].val));if(q2>0){tip=' נסו להסיר '+termStr(q2,p)+'.';break}}
+    m.textContent='עברתם את הסכום ב־'+fmt(over)+' ₪.'+tip;
+  }
+});
+$('#bkNext').addEventListener('click',function(){sClick();newMission(false)});
+$('#bkAlt').addEventListener('click',function(){sClick();newMission(true)});
+$('#bkNew').addEventListener('click',function(){sClick();if(bk.n>0)bk.n--;bk.done=false;newMission(false)});
+
+/* ---------- QUIZ ---------- */
+function genDigit(){
+  var n=genNumber(),d=digitsOf(n),ps=[];
+  for(var p=0;p<4;p++){if(d[p]>0)ps.push(p)}
+  var q=pick(ps),v=d[q];
+  var vals=[1,10,100,1000].map(function(u){return v*u});
+  return {tag:'ערך הספרה',prompt:'מה הערך של הספרה המסומנת?',num:digitsHTML(n,{hl:q}),
+    opts:shuffle(vals).map(function(x){return {t:fmt(x),ok:x===v*PL[q].val}}),
+    explain:'הספרה '+v+' נמצאת במקום ה'+PL[q].name+', ולכן היא שווה '+fmt(v*PL[q].val)+'.'};
+}
+function genFill(){
+  var p=rnd(1,2),u=PL[p].val,n=Math.floor(genNumber()/u)*u,ans=n/u;
+  var cand=[ans%10,ans*10,Math.floor(ans/10),ans+10,ans-10],w=[];
+  cand.forEach(function(x){if(x>0&&x!==ans&&w.indexOf(x)<0)w.push(x)});
+  w=w.slice(0,3);
+  var opts=[{t:fmt(ans),ok:true}].concat(w.map(function(x){return {t:fmt(x),ok:false}}));
+  return {tag:'כמה יש?',prompt:'כמה '+PL[p].p+' יש ב־'+fmt(n)+'?',num:digitsHTML(n),opts:shuffle(opts),
+    explain:'כל '+PL[p].s+' שווה '+u+'. '+fmt(ans)+' '+PL[p].p+' הן '+fmt(n)+'.'};
+}
+function genEquiv(){
+  var n=genNumber(),c=digitsOf(n),ups=rnd(1,2),u,p;
+  for(u=0;u<ups;u++){
+    var el=[3,2,1].filter(function(x){return c[x]>0});
+    if(!el.length)break;
+    p=pick(el);c[p-1]+=c[p]*10;c[p]=0;
+  }
+  var correct=exprOf(c),seen={},wrong=[];
+  seen[correct]=1;
+  function tryAdd(c2){if(valueOf(c2)===n)return;var s=exprOf(c2);if(seen[s])return;seen[s]=1;wrong.push(s)}
+  for(p=0;p<3;p++){if(c[p]!==c[p+1]&&(c[p]>0||c[p+1]>0)){var c2=c.slice();var t=c2[p];c2[p]=c2[p+1];c2[p+1]=t;tryAdd(c2)}}
+  for(p=0;p<4;p++){if(c[p]>0){var c3=c.slice();c3[p]+=1;tryAdd(c3);if(c[p]>1){var c4=c.slice();c4[p]-=1;tryAdd(c4)}}}
+  var picks=shuffle(wrong).slice(0,2);
+  var opts=[{t:correct,ok:true}].concat(picks.map(function(s){return {t:s,ok:false}}));
+  var parts=[];
+  for(p=3;p>=0;p--){if(c[p]>0)parts.push(termStr(c[p],p)+' = '+fmt(c[p]*PL[p].val))}
+  return {tag:'אותו מספר, דרך אחרת',prompt:'איזו דרך שווה בדיוק למספר הזה?',num:digitsHTML(n),opts:shuffle(opts),
+    explain:parts.join(', ')+'. ביחד: '+fmt(n)+'.'};
+}
+function genWrite(){
+  var c,n;
+  do{
+    c=[rnd(0,9),rnd(0,9),rnd(0,9),rnd(1,9)];
+    c[rnd(0,2)]=0;
+    if(Math.random()<.3)c[rnd(0,2)]=0;
+  }while(c[0]+c[1]+c[2]===0);
+  n=valueOf(c);
+  var s=String(n),set={},w=[];
+  set[n]=1;
+  function add(x){if(x>0&&!set[x]){set[x]=1;w.push(x)}}
+  add(Number(s.replace(/0/g,'')));
+  for(var i=0;i<3;i++){var a=s.split('');var t=a[i];a[i]=a[i+1];a[i+1]=t;add(Number(a.join('')))}
+  while(w.length<3)add(n+rnd(1,9)*10);
+  w=shuffle(w).slice(0,3);
+  var opts=[{t:fmt(n),ok:true}].concat(w.map(function(x){return {t:fmt(x),ok:false}}));
+  var zs=[];for(var p=2;p>=0;p--){if(c[p]===0)zs.push(PL[p].name)}
+  return {tag:'כותבים מספר',prompt:'איזה מספר מתואר כאן?',num:'<div class="expr">'+exprOf(c)+'</div>',opts:shuffle(opts),
+    explain:'אין '+zs.join(' ו')+', אז שמים 0 בכל מקום כזה. המספר הוא '+fmt(n)+'.'};
+}
+var GEN={digit:genDigit,fill:genFill,equiv:genEquiv,write:genWrite};
+var ORDER=['digit','fill','equiv','write','equiv','fill','write','equiv'];
+var qz={i:0,res:[],qs:[],answered:false};
+function startQuiz(){
+  qz={i:0,res:[],qs:ORDER.map(function(k){return GEN[k]()}),answered:false};
+  renderQuiz();
+}
+function renderQuiz(){
+  var body=$('#qzBody'),q=qz.qs[qz.i];
+  if(!q){
+    var ok=qz.res.filter(Boolean).length,tot=qz.qs.length,perfect=(ok===tot);
+    var msg=perfect?'מושלם! כל התשובות נכונות.':(ok>=tot-2?'כל הכבוד, כמעט מושלם!':'יפה מאוד. בסיבוב הבא יהיה עוד יותר קל.');
+    if(perfect)addStars(3);
+    body.innerHTML='<div class="summary"><div class="big">'+ok+' מתוך '+tot+'</div><div class="words">'+msg+'</div><div class="eq">'+(perfect?'קיבלתם 3 כוכבים נוספים':'כל תשובה נכונה הוסיפה כוכב')+'</div><button class="btn go" id="qzAgain">סיבוב חדש</button></div>';
+    if(perfect){sWin();confetti()}
+    return;
+  }
+  var dots='';
+  for(var i=0;i<qz.qs.length;i++){
+    var cl='qd';if(i<qz.res.length)cl+=qz.res[i]?' ok':' no';else if(i===qz.i)cl+=' now';
+    dots+='<span class="'+cl+'"></span>';
+  }
+  body.innerHTML='<div style="display:grid;gap:14px"><div class="qprog" aria-label="שאלה '+(qz.i+1)+' מתוך '+qz.qs.length+'">'+dots+'</div>'+
+    '<div class="qtag">'+q.tag+'</div><div class="qprompt">'+q.prompt+'</div><div class="qnum">'+q.num+'</div>'+
+    '<div class="opts" id="qzOpts">'+q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'"><bdi>'+o.t+'</bdi></button>'}).join('')+'</div>'+
+    '<div class="msg good" id="qzMsg" hidden aria-live="polite"></div>'+
+    '<div class="row center"><button class="btn soft" id="qzSpeak">הקראת השאלה</button><button class="btn go" id="qzNext" hidden>'+(qz.i===qz.qs.length-1?'לסיכום':'לשאלה הבאה')+'</button></div></div>';
+  qz.answered=false;
+}
+$('#qzBody').addEventListener('click',function(e){
+  var t=e.target;
+  if(t.closest('#qzAgain')){sClick();startQuiz();return}
+  if(t.closest('#qzSpeak')){var q0=qz.qs[qz.i];if(q0){var tmp=document.createElement('div');tmp.innerHTML=q0.num;speak(q0.prompt.replace('הספרה המסומנת','הספרה המסומנת')+' '+tmp.textContent+' '+q0.opts.map(function(o){return o.t}).join('. '))}return}
+  if(t.closest('#qzNext')){sClick();qz.i++;renderQuiz();return}
+  var b=t.closest('button.opt');if(!b||qz.answered)return;
+  qz.answered=true;
+  var q=qz.qs[qz.i],idx=+b.dataset.i,ok=q.opts[idx].ok;
+  var all=document.querySelectorAll('#qzOpts .opt');
+  for(var i=0;i<all.length;i++){all[i].disabled=true;if(q.opts[i].ok)all[i].classList.add('ok')}
+  if(!ok)b.classList.add('no');
+  qz.res.push(ok);
+  var m=$('#qzMsg');m.hidden=false;m.className='msg '+(ok?'good':'tip');
+  m.textContent=(ok?'נכון מאוד! ':'כמעט. ')+q.explain;
+  if(ok){addStars(1);sWin();confetti()}else sBad();
+  $('#qzNext').hidden=false;
+});
+
+/* ---------- init ---------- */
+$('#stars').textContent=stars;
+buildBank();
+renderEx();
+newMission(false);
+startQuiz();
+var h=(location.hash||'').slice(1);
+if(TABS.indexOf(h)>=0)show(h);
+})();
+</script>
+
+</body></html>
