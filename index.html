@@ -67,8 +67,8 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(1.7rem,6vw,2.4rem)
 .stars b{font-variant-numeric:tabular-nums;font-family:var(--display);font-weight:400;font-size:1.15rem}
 .starg{color:var(--on)}
 
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 4px);z-index:5;box-shadow:var(--shadow)}
-.tabs button{padding:10px 6px;border-radius:10px;color:var(--muted);font-weight:700}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:5px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 4px);z-index:5;box-shadow:var(--shadow)}
+.tabs button{padding:10px 4px;border-radius:10px;color:var(--muted);font-weight:700}
 .tabs button.on{background:var(--btn);color:var(--btn-ink)}
 
 .sheet{background:var(--paper);border:1.5px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:clamp(14px,3vw,22px);display:grid;gap:14px;min-width:0}
@@ -125,6 +125,51 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
 .legendbox .legend{margin-top:10px}
 #presets .pill{padding:6px 12px;font-size:.92rem}
 [hidden]{display:none!important}
+
+.qwrap{display:grid;gap:14px}
+.qd.done{background:var(--hu)}
+.words-big{font-size:clamp(1.25rem,5.4vw,1.6rem);font-weight:700;line-height:1.5;text-align:center;text-wrap:balance;padding:6px}
+.topics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.topic{padding:14px 10px;border-radius:14px;background:var(--paper2);box-shadow:inset 0 0 0 1.5px var(--line);display:grid;gap:3px;text-align:center;font-weight:700;align-content:center}
+.topic small{color:var(--muted);font-weight:400;font-size:.8rem;line-height:1.35}
+.topic:hover{box-shadow:inset 0 0 0 2px var(--hu)}
+.topic.all{grid-column:1/-1;background:var(--btn);color:var(--btn-ink);box-shadow:none}
+.topic.all small{color:inherit;opacity:.8}
+.seg{display:inline-flex;background:var(--paper2);border-radius:999px;padding:3px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.seg button{padding:6px 14px;border-radius:999px;font-weight:500;color:var(--muted)}
+.seg button.on{background:var(--btn);color:var(--btn-ink)}
+.cmprow{direction:ltr;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap;font-family:var(--display);font-size:clamp(1.8rem,9vw,2.7rem);font-variant-numeric:tabular-nums}
+.cmprow .qm{color:var(--muted)}
+.cmprow .ce{direction:rtl;font-family:var(--body);font-weight:700;font-size:1.1rem;line-height:1.4;max-width:13em;text-align:center}
+.signs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;direction:ltr}
+.signs .opt{font-family:var(--display);font-size:2rem;padding:8px}
+.slots{direction:ltr;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+.slot{min-width:70px;min-height:46px;padding:6px 8px;border-radius:10px;border:2px dashed var(--line);display:grid;place-items:center;font-weight:700;font-variant-numeric:tabular-nums}
+.slot.f{border-style:solid;border-color:var(--hu);background:var(--hu-soft);color:var(--hu-deep)}
+.slot.ok{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.slot.no{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.sg{color:var(--muted);font-family:var(--display);font-size:1.3rem}
+.chips{grid-template-columns:repeat(auto-fit,minmax(96px,1fr));direction:ltr}
+.opt.sel{background:var(--hu-soft);box-shadow:inset 0 0 0 2.5px var(--hu)}
+.opt.used{opacity:.35}
+.tlist{display:grid;gap:8px}
+.trow{display:grid;grid-template-columns:1fr auto 64px;gap:8px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--paper2)}
+.tscore{font-weight:700;font-variant-numeric:tabular-nums;color:var(--warn)}
+.tscore.full{color:var(--good)}
+.sub3{font-family:var(--display);font-weight:400;font-size:1.15rem;margin:6px 0 0}
+.wlist{display:grid;gap:8px}
+.wrong{border-radius:12px;padding:10px 12px;background:var(--warn-soft);color:var(--warn);line-height:1.5}
+.wrong b{display:block;font-size:.85rem}
+.btab{direction:ltr;display:grid;gap:6px;width:100%}
+.bcol{background:var(--pcs);border-radius:10px;padding:6px 4px 8px;display:grid;gap:6px;justify-items:center;align-content:start;text-align:center;min-height:72px}
+.bcol b{font-size:.78rem;color:var(--pcd);font-weight:500}
+.bcol .stack{min-height:0}
+.numexpr{direction:ltr;font-family:var(--display);font-size:clamp(1.15rem,5.8vw,1.8rem);text-align:center;line-height:1.5;font-variant-numeric:tabular-nums;text-wrap:balance}
+.ansrow{display:flex;gap:10px;justify-content:center;align-items:stretch;flex-wrap:wrap}
+.ans{width:min(240px,100%);font-family:var(--display);font-size:1.7rem;text-align:center;padding:8px 10px;border-radius:12px;border:2px solid var(--line);background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+.ans.ok{border-color:var(--good);background:var(--good-soft);color:var(--good)}
+.ans.no{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.ans:disabled{opacity:1}
 /* explore board */
 .board{direction:ltr;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .col{direction:rtl;background:var(--pcs);border:2px solid var(--pc);border-radius:14px;padding:8px 6px;display:grid;gap:8px;align-content:start;text-align:center;min-width:0}
@@ -216,9 +261,10 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
   </header>
 
   <nav class="tabs" role="tablist" aria-label="חלקי המשחק">
-    <button role="tab" class="on" data-tab="explore" aria-selected="true">מכונת ההחלפות</button>
+    <button role="tab" class="on" data-tab="explore" aria-selected="true">מכונה</button>
     <button role="tab" data-tab="bank" aria-selected="false">הבנק</button>
-    <button role="tab" data-tab="quiz" aria-selected="false">חידות</button>
+    <button role="tab" data-tab="practice" aria-selected="false">תרגול</button>
+    <button role="tab" data-tab="test" aria-selected="false">מבחן</button>
   </nav>
 
   <!-- EXPLORE -->
@@ -262,9 +308,14 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
   </section>
 
   <!-- QUIZ -->
-  <section class="sheet" id="tab-quiz" hidden>
-    <h2>חידות</h2>
-    <div id="qzBody"></div>
+  <section class="sheet" id="tab-practice" hidden>
+    <h2>תרגול</h2>
+    <div id="prBody"></div>
+  </section>
+
+  <section class="sheet" id="tab-test" hidden>
+    <h2>מבחן ניסיון</h2>
+    <div id="tsBody"></div>
   </section>
 </div>
 <div class="toast" id="toast" hidden role="status"></div>
@@ -368,7 +419,7 @@ function digitsHTML(n,o){
 }
 
 /* ---------- tabs ---------- */
-var TABS=['explore','bank','quiz'];
+var TABS=['explore','bank','practice','test'];
 function show(tab){
   TABS.forEach(function(t){
     $('#tab-'+t).hidden=(t!==tab);
@@ -587,27 +638,55 @@ $('#bkNext').addEventListener('click',function(){sClick();newMission(false)});
 $('#bkAlt').addEventListener('click',function(){sClick();newMission(true)});
 $('#bkNew').addEventListener('click',function(){sClick();if(bk.n>0)bk.n--;bk.done=false;newMission(false)});
 
-/* ---------- QUIZ ---------- */
+/* ---------- PRACTICE AND TEST ---------- */
+var R=4;
+try{if(localStorage.getItem('nb_range')==='3')R=3}catch(e){}
+function maxN(){return R===4?10000:1000}
+function genN(){
+  if(R===4)return genNumber();
+  var h=rnd(1,9),t=rnd(0,9),o=rnd(0,9);
+  if(Math.random()<.35)t=0;
+  if(Math.random()<.3)o=0;
+  return h*100+t*10+o;
+}
+function plainNum(n){return '<div class="numrow"><span class="dg plain">'+fmt(n)+'</span></div>'}
+function mkOpts(correct,wrongs){
+  return shuffle([{t:correct,ok:true}].concat(wrongs.map(function(x){return {t:x,ok:false}})));
+}
+
+/* value of a digit */
 function genDigit(){
-  var n=genNumber(),d=digitsOf(n),ps=[];
-  for(var p=0;p<4;p++){if(d[p]>0)ps.push(p)}
-  var q=pick(ps),v=d[q];
-  var vals=[1,10,100,1000].map(function(u){return v*u});
+  var n=genN(),d=digitsOf(n),ps=[],p;
+  for(p=0;p<R;p++){if(d[p]>0)ps.push(p)}
+  var q=pick(ps),v=d[q],vals=[];
+  for(p=0;p<R;p++)vals.push(v*PL[p].val);
   return {tag:'ערך הספרה',prompt:'מה הערך של הספרה המסומנת?',num:digitsHTML(n,{hl:q}),
     opts:shuffle(vals).map(function(x){return {t:fmt(x),ok:x===v*PL[q].val}}),
     explain:'הספרה '+v+' נמצאת במקום ה'+PL[q].name+', ולכן היא שווה '+fmt(v*PL[q].val)+'.'};
 }
+function genPlace(){
+  var n=genN(),d=digitsOf(n),p=rnd(0,R-1),ans=d[p],set={},w=[],i,x;
+  set[ans]=1;
+  for(i=0;i<R;i++){if(!set[d[i]]){set[d[i]]=1;w.push(d[i])}}
+  w=shuffle(w).slice(0,3);
+  while(w.length<3){x=rnd(0,9);if(!set[x]){set[x]=1;w.push(x)}}
+  return {tag:'ערך הספרה',prompt:'איזו ספרה נמצאת במקום ה'+PL[p].name+'?',num:plainNum(n),
+    opts:mkOpts(String(ans),w.map(String)),
+    explain:fmt(n)+' = '+exprOf(d)+'. במקום ה'+PL[p].name+' נמצאת הספרה '+ans+'.'};
+}
+
+/* decimal structure */
 function genFill(){
-  var p=rnd(1,2),u=PL[p].val,n=Math.floor(genNumber()/u)*u,ans=n/u;
+  var p=rnd(1,2),u=PL[p].val,n=Math.floor(genN()/u)*u,ans=n/u;
   var cand=[ans%10,ans*10,Math.floor(ans/10),ans+10,ans-10],w=[];
   cand.forEach(function(x){if(x>0&&x!==ans&&w.indexOf(x)<0)w.push(x)});
   w=w.slice(0,3);
-  var opts=[{t:fmt(ans),ok:true}].concat(w.map(function(x){return {t:fmt(x),ok:false}}));
-  return {tag:'כמה יש?',prompt:'כמה '+PL[p].p+' יש ב־'+fmt(n)+'?',num:digitsHTML(n),opts:shuffle(opts),
+  return {tag:'כמה יש?',prompt:'כמה '+PL[p].p+' יש ב־'+fmt(n)+'?',num:plainNum(n),
+    opts:mkOpts(fmt(ans),w.map(fmt)),
     explain:'כל '+PL[p].s+' שווה '+u+'. '+fmt(ans)+' '+PL[p].p+' הן '+fmt(n)+'.'};
 }
 function genEquiv(){
-  var n=genNumber(),c=digitsOf(n),ups=rnd(1,2),u,p;
+  var n=genN(),c=digitsOf(n),ups=rnd(1,2),u,p;
   for(u=0;u<ups;u++){
     var el=[3,2,1].filter(function(x){return c[x]>0});
     if(!el.length)break;
@@ -618,78 +697,469 @@ function genEquiv(){
   function tryAdd(c2){if(valueOf(c2)===n)return;var s=exprOf(c2);if(seen[s])return;seen[s]=1;wrong.push(s)}
   for(p=0;p<3;p++){if(c[p]!==c[p+1]&&(c[p]>0||c[p+1]>0)){var c2=c.slice();var t=c2[p];c2[p]=c2[p+1];c2[p+1]=t;tryAdd(c2)}}
   for(p=0;p<4;p++){if(c[p]>0){var c3=c.slice();c3[p]+=1;tryAdd(c3);if(c[p]>1){var c4=c.slice();c4[p]-=1;tryAdd(c4)}}}
-  var picks=shuffle(wrong).slice(0,2);
-  var opts=[{t:correct,ok:true}].concat(picks.map(function(s){return {t:s,ok:false}}));
-  var parts=[];
+  var picks=shuffle(wrong).slice(0,2),parts=[];
   for(p=3;p>=0;p--){if(c[p]>0)parts.push(termStr(c[p],p)+' = '+fmt(c[p]*PL[p].val))}
-  return {tag:'אותו מספר, דרך אחרת',prompt:'איזו דרך שווה בדיוק למספר הזה?',num:digitsHTML(n),opts:shuffle(opts),
-    explain:parts.join(', ')+'. ביחד: '+fmt(n)+'.'};
+  return {tag:'אותו מספר, דרך אחרת',prompt:'איזו דרך שווה בדיוק למספר הזה?',num:plainNum(n),
+    opts:mkOpts(correct,picks),explain:parts.join(', ')+'. ביחד: '+fmt(n)+'.'};
 }
 function genWrite(){
-  var c,n;
+  var c=[0,0,0,0],top=R-1,p,n;
   do{
-    c=[rnd(0,9),rnd(0,9),rnd(0,9),rnd(1,9)];
-    c[rnd(0,2)]=0;
-    if(Math.random()<.3)c[rnd(0,2)]=0;
-  }while(c[0]+c[1]+c[2]===0);
+    for(p=0;p<top;p++)c[p]=rnd(0,9);
+    c[rnd(0,top-1)]=0;
+    if(Math.random()<.3)c[rnd(0,top-1)]=0;
+    c[top]=rnd(1,9);
+  }while(c.slice(0,top).every(function(x){return x===0}));
   n=valueOf(c);
-  var s=String(n),set={},w=[];
-  set[n]=1;
-  function add(x){if(x>0&&!set[x]){set[x]=1;w.push(x)}}
-  add(Number(s.replace(/0/g,'')));
-  for(var i=0;i<3;i++){var a=s.split('');var t=a[i];a[i]=a[i+1];a[i+1]=t;add(Number(a.join('')))}
-  while(w.length<3)add(n+rnd(1,9)*10);
-  w=shuffle(w).slice(0,3);
-  var opts=[{t:fmt(n),ok:true}].concat(w.map(function(x){return {t:fmt(x),ok:false}}));
-  var zs=[];for(var p=2;p>=0;p--){if(c[p]===0)zs.push(PL[p].name)}
-  return {tag:'כותבים מספר',prompt:'איזה מספר מתואר כאן?',num:'<div class="expr">'+exprOf(c)+'</div>',opts:shuffle(opts),
+  var w=nearNums(n).slice(0,3),zs=[];
+  for(p=top-1;p>=0;p--){if(c[p]===0)zs.push(PL[p].name)}
+  return {tag:'כותבים מספר',prompt:'איזה מספר מתואר כאן?',num:'<div class="words-big">'+exprOf(c)+'</div>',
+    opts:mkOpts(fmt(n),w.map(fmt)),
     explain:'אין '+zs.join(' ו')+', אז שמים 0 בכל מקום כזה. המספר הוא '+fmt(n)+'.'};
 }
-var GEN={digit:genDigit,fill:genFill,equiv:genEquiv,write:genWrite};
-var ORDER=['digit','fill','equiv','write','equiv','fill','write','equiv'];
-var qz={i:0,res:[],qs:[],answered:false};
-function startQuiz(){
-  qz={i:0,res:[],qs:ORDER.map(function(k){return GEN[k]()}),answered:false};
-  renderQuiz();
+
+/* words and digits */
+function nearNums(n){
+  var s=String(n),set={},st=[],ot=[],i,a,t;
+  set[n]=1;
+  function add(x,list){x=Number(x);if(x>=100&&x<maxN()&&!set[x]){set[x]=1;list.push(x)}}
+  for(i=0;i<s.length-1;i++){a=s.split('');t=a[i];a[i]=a[i+1];a[i+1]=t;if(a[0]!=='0')add(a.join(''),st)}
+  if(s.indexOf('0')>=0)add(s.replace(/0/g,''),st);
+  [1,-1].forEach(function(dd){
+    for(i=0;i<s.length;i++){a=s.split('');var v=+a[i]+dd;if(v>=0&&v<=9){a[i]=String(v);if(a[0]!=='0')add(a.join(''),ot)}}
+  });
+  var pool=shuffle(st).concat(shuffle(ot)),tries=0;
+  while(pool.length<3&&tries++<60){
+    var x=n+(rnd(0,1)?1:-1)*rnd(1,9)*(rnd(0,1)?10:100);
+    if(x>=100&&x<maxN()&&!set[x]){set[x]=1;pool.push(x)}
+  }
+  return pool;
 }
-function renderQuiz(){
-  var body=$('#qzBody'),q=qz.qs[qz.i];
-  if(!q){
-    var ok=qz.res.filter(Boolean).length,tot=qz.qs.length,perfect=(ok===tot);
-    var msg=perfect?'מושלם! כל התשובות נכונות.':(ok>=tot-2?'כל הכבוד, כמעט מושלם!':'יפה מאוד. בסיבוב הבא יהיה עוד יותר קל.');
-    if(perfect)addStars(3);
-    body.innerHTML='<div class="summary"><div class="big">'+ok+' מתוך '+tot+'</div><div class="words">'+msg+'</div><div class="eq">'+(perfect?'קיבלתם 3 כוכבים נוספים':'כל תשובה נכונה הוסיפה כוכב')+'</div><button class="btn go" id="qzAgain">סיבוב חדש</button></div>';
-    if(perfect){sWin();confetti()}
+function genW2D(){
+  var n=genN(),w=nearNums(n).slice(0,3);
+  return {tag:'מילים למספר',prompt:'איזה מספר כתוב כאן במילים?',num:'<div class="words-big">'+words(n)+'</div>',
+    opts:mkOpts(fmt(n),w.map(fmt)),say:words(n),
+    explain:words(n)+' נכתב '+fmt(n)+'. '+exprOf(digitsOf(n))+'.'};
+}
+function genD2W(){
+  var n=genN(),w=nearNums(n).slice(0,3);
+  return {tag:'מספר למילים',prompt:'איך קוראים למספר הזה?',num:plainNum(n),
+    opts:mkOpts(words(n),w.map(words)),
+    explain:fmt(n)+' = '+exprOf(digitsOf(n))+'. במילים: '+words(n)+'.'};
+}
+
+/* comparing */
+function cmpWhy(a,b){
+  var da=digitsOf(a),db=digitsOf(b),p,top=String(Math.max(a,b)).length-1;
+  for(p=3;p>=0;p--){if(da[p]!==db[p])break}
+  if(p<0)return 'שני הצדדים שווים.';
+  var t=(p===top)?'במקום ה'+PL[p].name+' יש '+da[p]+' מול '+db[p]+'. ':'המקומות הגדולים זהים. ההבדל הראשון הוא במקום ה'+PL[p].name+': '+da[p]+' מול '+db[p]+'. ';
+  return t+fmt(a)+(a>b?' גדול מ־':' קטן מ־')+fmt(b)+'.';
+}
+function signOf(a,b){return a>b?'&gt;':(a<b?'&lt;':'=')}
+function signOpts(sg){return ['&gt;','&lt;','='].map(function(x){return {t:x,ok:x===sg}})}
+function genCmp(){
+  var a=genN(),s=String(a),b,arr,j,t,k;
+  do{
+    k=rnd(0,2);
+    arr=s.split('');
+    if(k===0){j=rnd(0,s.length-2);t=arr[j];arr[j]=arr[j+1];arr[j+1]=t;b=Number(arr.join(''))}
+    else if(k===1){j=rnd(1,s.length-1);arr[j]=String((+arr[j]+rnd(1,9))%10);b=Number(arr.join(''))}
+    else{b=a+(rnd(0,1)?1:-1)*Math.pow(10,s.length-1)*rnd(1,2)}
+  }while(b===a||b<100||b>=maxN());
+  return {tag:'משווים',prompt:'איזה סימן מתאים?',signs:true,
+    num:'<div class="cmprow"><span>'+fmt(a)+'</span><span class="qm">?</span><span>'+fmt(b)+'</span></div>',
+    opts:signOpts(signOf(a,b)),say:'השוו בין '+words(a)+' לבין '+words(b),explain:cmpWhy(a,b)};
+}
+function genCmpExpr(){
+  var n=genN(),c=digitsOf(n),ups=rnd(1,2),u,p,el;
+  for(u=0;u<ups;u++){
+    el=[3,2,1].filter(function(x){return c[x]>0});
+    if(!el.length)break;
+    p=pick(el);c[p-1]+=c[p]*10;c[p]=0;
+  }
+  if(Math.random()<.5){
+    el=[0,1,2,3].filter(function(x){return c[x]>0});
+    p=pick(el);
+    var dl=rnd(0,1)?1:-1;
+    c[p]+=dl;
+    if(valueOf(c)>=maxN()||valueOf(c)<100){c[p]-=2*dl}
+  }
+  var v=valueOf(c);
+  return {tag:'משווים',prompt:'איזה סימן מתאים?',signs:true,
+    num:'<div class="cmprow"><span>'+fmt(n)+'</span><span class="qm">?</span><span class="ce">'+exprOf(c)+'</span></div>',
+    opts:signOpts(signOf(n,v)),
+    explain:exprOf(c)+' = '+fmt(v)+'. '+(n===v?'שני הצדדים שווים.':cmpWhy(n,v))};
+}
+function genOrder(){
+  var base=genN(),s=String(base),set={},nums=[base],tries=0,arr,j,k,t,x;
+  set[base]=1;
+  while(nums.length<4&&tries++<80){
+    arr=s.split('');j=rnd(1,s.length-1);arr[j]=String(rnd(0,9));
+    if(Math.random()<.4){k=rnd(0,s.length-2);t=arr[k];arr[k]=arr[k+1];arr[k+1]=t}
+    x=Number(arr.join(''));
+    if(x>=100&&x<maxN()&&!set[x]){set[x]=1;nums.push(x)}
+  }
+  while(nums.length<4){x=genN();if(!set[x]){set[x]=1;nums.push(x)}}
+  var asc=Math.random()<.6;
+  var sorted=nums.slice().sort(function(a,b){return asc?a-b:b-a});
+  return {type:'order',tag:'מסדרים',prompt:asc?'סדרו מהקטן לגדול':'סדרו מהגדול לקטן',items:shuffle(nums),sorted:sorted,asc:asc,
+    explain:'הסדר הנכון: <bdi dir="ltr">'+sorted.map(fmt).join(asc?' &lt; ':' &gt; ')+'</bdi>.'};
+}
+
+/* extra question types from the class examples */
+function termsOf(c){var t=[],p;for(p=3;p>=0;p--){if(c[p]>0)t.push(c[p]*PL[p].val)}return t}
+function randDigits(allowShort){
+  var c,top=R-1,p;
+  do{
+    c=[0,0,0,0];
+    for(p=0;p<top;p++)c[p]=rnd(0,9);
+    c[rnd(0,top-1)]=0;
+    if(Math.random()<.3)c[rnd(0,top-1)]=0;
+    c[top]=rnd(1,9);
+    if(allowShort&&Math.random()<.2)c[top]=0;
+  }while(valueOf(c)<100||termsOf(c).length<2);
+  return c;
+}
+function sumStr(vals){return '<span dir="ltr">'+vals.map(fmt).join(' + ')+'</span>'}
+function sumWrongs(vals,n){
+  var seen={},out=[],i;
+  seen[vals.join('+')]=1;
+  function tryV(v2){
+    var sum=v2.reduce(function(a,b){return a+b},0);
+    if(sum===n||sum>=maxN()*10)return;
+    var k=v2.join('+');if(seen[k])return;seen[k]=1;out.push(sumStr(v2));
+  }
+  for(i=0;i<vals.length;i++){
+    var a=vals.slice();a[i]=vals[i]*10;tryV(a);
+    if(vals[i]>=10){var b=vals.slice();b[i]=vals[i]/10;tryV(b)}
+  }
+  return shuffle(out);
+}
+function genExpNum(){
+  var c=randDigits(true),n=valueOf(c),w=nearNums(n).slice(0,3),zs=[],p;
+  for(p=String(n).length-1;p>=0;p--){if(c[p]===0)zs.push(PL[p].name)}
+  return {tag:'מחברים',prompt:'מה המספר המתקבל?',
+    num:'<div class="numexpr">'+termsOf(c).map(fmt).join(' + ')+' = ?</div>',
+    opts:mkOpts(fmt(n),w.map(fmt)),
+    explain:termsOf(c).map(fmt).join(' + ')+' = '+fmt(n)+'.'+(zs.length?' אין '+zs.join(' ו')+', ולכן כותבים 0 בכל מקום כזה.':'')};
+}
+function genExpChoose(){
+  var c=randDigits(false),n=valueOf(c),vals=termsOf(c),w=sumWrongs(vals,n).slice(0,3);
+  return {tag:'פירוק',prompt:'איזה חיבור שווה בדיוק למספר?',num:plainNum(n),
+    opts:mkOpts(sumStr(vals),w),
+    explain:fmt(n)+' = '+vals.map(fmt).join(' + ')+'.'};
+}
+function genDigitIn(){
+  var d=rnd(1,9),p=rnd(0,R-1),c=[0,0,0,0],i,x,vals=[];
+  for(i=0;i<R;i++){
+    if(i===p)c[i]=d;
+    else{do{x=rnd(0,9)}while(x===d);c[i]=x}
+  }
+  if(c[R-1]===0)c[R-1]=(d===1?2:1);
+  var n=valueOf(c);
+  for(i=0;i<R;i++)vals.push(d*PL[i].val);
+  return {tag:'ערך הספרה',prompt:'מה הערך של הספרה '+d+' במספר?',num:plainNum(n),
+    opts:shuffle(vals).map(function(v){return {t:fmt(v),ok:v===d*PL[p].val}}),
+    explain:'הספרה '+d+' נמצאת במקום ה'+PL[p].name+', ולכן ערכה '+fmt(d*PL[p].val)+'. '+fmt(n)+' = '+exprOf(c)+'.'};
+}
+function blocksStr(p,count){
+  var kinds=['b-u','b-r','b-f','b-c'],h='',i;
+  for(i=0;i<count;i++)h+='<i class="blk '+kinds[p]+'"></i>';
+  return h;
+}
+function blocksTable(c){
+  var h='<div class="btab" style="grid-template-columns:repeat('+R+',minmax(0,1fr))">',p;
+  for(p=R-1;p>=0;p--){
+    h+='<div class="bcol '+PL[p].cls+'"><b>'+PL[p].name+'</b><div class="stack" style="--k:.5">'+blocksStr(p,c[p])+'</div></div>';
+  }
+  return h+'</div>';
+}
+function genBlocks(){
+  var c=randDigits(false),n=valueOf(c),m=rnd(0,2),q,w,vals=termsOf(c);
+  var tbl=blocksTable(c);
+  var cnt=exprOf(c);
+  if(m===0){
+    w=nearNums(n).slice(0,3);
+    q={tag:'המחשה',prompt:'איזה מספר מוצג בהמחשה?',opts:mkOpts(fmt(n),w.map(fmt))};
+  }else if(m===1){
+    w=nearNums(n).slice(0,3);
+    q={tag:'המחשה',prompt:'איך קוראים למספר שבהמחשה?',opts:mkOpts(words(n),w.map(words))};
+  }else{
+    q={tag:'המחשה',prompt:'איזה חיבור מתאר את ההמחשה?',opts:mkOpts(sumStr(vals),sumWrongs(vals,n).slice(0,3))};
+  }
+  q.num=tbl;
+  q.explain='בהמחשה יש '+cnt+'. זה המספר '+fmt(n)+', במילים: '+words(n)+'.';
+  return q;
+}
+function genChange(){
+  var n=genN(),c=digitsOf(n),p=pick(R===4?[3,2,1]:[2,1]),old=c[p],nd,i;
+  do{nd=rnd(0,9)}while(nd===old||(p===R-1&&nd===0));
+  var c2=c.slice();c2[p]=nd;
+  var n2=valueOf(c2),diff=Math.abs(n2-n),dir=n2>n?'גדול':'קטן',opp=n2>n?'קטן':'גדול';
+  var place=PL[p].name,lead='במספר '+fmt(n)+' שינו את ספרת ה'+place+' ל־'+nd+'.';
+  if(Math.random()<.5){
+    var set={},w=[];
+    set[n2]=1;
+    function add(x){if(x>=100&&x<maxN()&&!set[x]){set[x]=1;w.push(x)}}
+    for(i=0;i<R;i++){if(i!==p){var c3=c.slice();c3[i]=nd;if(!(i===R-1&&nd===0))add(valueOf(c3))}}
+    var c4=c.slice();c4[p]=old;
+    add(n+(n2>n?1:-1)*diff*10);
+    add(n+(n2>n?-1:1)*diff);
+    w=shuffle(w).slice(0,3);
+    return {tag:'משנים ספרה',prompt:lead+' מה המספר החדש?',num:plainNum(n),
+      opts:mkOpts(fmt(n2),w.map(fmt)),
+      explain:'הספרה '+old+' במקום ה'+place+' הפכה ל־'+nd+'. המספר החדש הוא '+fmt(n2)+'.'};
+  }
+  var a1=diff/10,pool=[[opp,diff],[dir,a1],[opp,a1]];
+  if(diff*10<maxN()*10)pool.push([dir,diff*10]);
+  var wr=shuffle(pool).slice(0,3).map(function(x){return x[0]+' ב־'+fmt(x[1])});
+  return {tag:'משנים ספרה',prompt:lead+' איך המספר החדש, '+fmt(n2)+', משתנה?',num:plainNum(n),
+    opts:mkOpts(dir+' ב־'+fmt(diff),wr),
+    explain:'הספרה במקום ה'+place+' עברה מ־'+old+' ל־'+nd+'. המספר החדש '+dir+' מ־'+fmt(n)+' ב־'+fmt(diff)+'.'};
+}
+function genCmpLen(){
+  var a,b,x,y,big,t;
+  if(R===4){a=rnd(1000,9999);b=rnd(100,999);big=1000;t='ארבע־ספרתי';}
+  else{a=rnd(100,999);b=rnd(10,99);big=100;t='תלת־ספרתי'}
+  var small=(R===4)?'תלת־ספרתי':'דו־ספרתי';
+  var swap=Math.random()<.5;
+  x=swap?b:a;y=swap?a:b;
+  return {tag:'משווים',prompt:'איזה סימן מתאים?',signs:true,
+    num:'<div class="cmprow"><span>'+fmt(x)+'</span><span class="qm">?</span><span>'+fmt(y)+'</span></div>',
+    opts:signOpts(signOf(x,y)),
+    explain:'המספר '+fmt(a)+' הוא '+t+', ולכן גדול מ־'+fmt(big)+'. המספר '+fmt(b)+' הוא '+small+', ולכן קטן מ־'+fmt(big)+'. '+fmt(a)+' גדול מ־'+fmt(b)+'.'};
+}
+
+/* typed answers: writing the number, as in the test */
+function parseTyped(s){s=String(s).replace(/[\s,]/g,'');return /^\d+$/.test(s)?Number(s):NaN}
+function genW2DTyped(){
+  var n=genN();
+  return {type:'typed',tag:'כתיבה בספרות',prompt:'כתבו בספרות את המספר שכתוב כאן במילים',num:'<div class="words-big">'+words(n)+'</div>',ans:n,say:words(n),
+    explain:'התשובה: '+fmt(n)+'. '+words(n)+' נכתב '+fmt(n)+', כלומר '+exprOf(digitsOf(n))+'.'};
+}
+function genDigitInTyped(){
+  var d=rnd(1,9),p=rnd(0,R-1),c=[0,0,0,0],i,x;
+  for(i=0;i<R;i++){
+    if(i===p)c[i]=d;
+    else{do{x=rnd(0,9)}while(x===d);c[i]=x}
+  }
+  if(c[R-1]===0)c[R-1]=(d===1?2:1);
+  var n=valueOf(c);
+  return {type:'typed',tag:'ערך הספרה',prompt:'מה הערך של הספרה '+d+' במספר?',num:plainNum(n),ans:d*PL[p].val,
+    explain:'התשובה: '+fmt(d*PL[p].val)+'. הספרה '+d+' נמצאת במקום ה'+PL[p].name+'. '+fmt(n)+' = '+exprOf(c)+'.'};
+}
+function genExpNumTyped(){
+  var c=randDigits(true),n=valueOf(c),zs=[],p;
+  for(p=String(n).length-1;p>=0;p--){if(c[p]===0)zs.push(PL[p].name)}
+  return {type:'typed',tag:'מחברים',prompt:'מה המספר המתקבל? כתבו אותו בספרות',
+    num:'<div class="numexpr">'+termsOf(c).map(fmt).join(' + ')+' = ?</div>',ans:n,
+    explain:'התשובה: '+fmt(n)+'. '+termsOf(c).map(fmt).join(' + ')+' = '+fmt(n)+'.'+(zs.length?' אין '+zs.join(' ו')+', ולכן כותבים 0 בכל מקום כזה.':'')};
+}
+var TN={value:'ערך הספרה',words:'מילים ומספרים',struct:'מבנה עשרוני',cmp:'השוואה'};
+var TD={value:'מה הספרה שווה',words:'לכתוב ולקרוא מספרים',struct:'המחשה, פירוק ושינוי ספרה',cmp:'גדול, קטן, שווה וסידור'};
+var TK=['value','words','struct','cmp'];
+var GENS={value:[genDigit,genPlace,genDigitIn,genDigitInTyped],words:[genW2D,genD2W,genW2DTyped],struct:[genFill,genEquiv,genWrite,genBlocks,genExpNum,genExpChoose,genChange,genExpNumTyped],cmp:[genCmp,genCmpExpr,genOrder,genCmpLen]};
+var HOST={practice:'#prBody',test:'#tsBody'};
+var S={practice:null,test:null};
+function makeQ(topic){var q=pick(GENS[topic])();q.topic=topic;return q}
+
+function rangeHTML(){
+  return '<div class="row center"><span style="color:var(--muted)">טווח המספרים</span><span class="seg" role="group" aria-label="טווח המספרים"><button data-r="3" class="'+(R===3?'on':'')+'">עד 1,000</button><button data-r="4" class="'+(R===4?'on':'')+'">עד 10,000</button></span></div>';
+}
+function showStart(m){
+  S[m]=null;
+  var h='';
+  if(m==='practice'){
+    h='<p class="lead">בחרו נושא. בכל סיבוב 8 שאלות, ואחרי כל תשובה מופיע הסבר.</p><div class="topics"><button class="topic all" data-t="all">כל הנושאים<small>מעורב</small></button>'+
+      TK.map(function(k){return '<button class="topic" data-t="'+k+'">'+TN[k]+'<small>'+TD[k]+'</small></button>'}).join('')+'</div>'+rangeHTML();
+  }else{
+    h='<p class="lead">12 שאלות מכל הנושאים, כמו במבחן. בוחרים תשובה ועוברים הלאה. התשובות הנכונות והסברים מופיעים רק בסוף.</p><div class="row center"><button class="btn go" data-act="start">התחלת מבחן</button></div>'+rangeHTML();
+  }
+  $(HOST[m]).innerHTML=h;
+}
+function startSession(m,topic){
+  var qs=[],i;
+  if(m==='test'){
+    qs=shuffle(['value','value','value','words','words','words','struct','struct','struct','cmp','cmp','cmp']).map(makeQ);
+  }else if(topic==='all'){
+    for(i=0;i<8;i++)qs.push(makeQ(TK[i%4]));
+    qs=shuffle(qs);
+  }else{
+    for(i=0;i<8;i++)qs.push(makeQ(topic));
+  }
+  S[m]={mode:m,topic:topic,qs:qs,i:0,res:[],answered:false,pick:[],cur:null};
+  renderSession(m);
+}
+function dotsHTML(s){
+  var h='',i,cl;
+  for(i=0;i<s.qs.length;i++){
+    cl='qd';
+    if(i<s.res.length)cl+=(s.mode==='test'?' done':(s.res[i]?' ok':' no'));
+    else if(i===s.i)cl+=' now';
+    h+='<span class="'+cl+'"></span>';
+  }
+  return h;
+}
+function renderSession(m){
+  var s=S[m],host=$(HOST[m]),q=s.qs[s.i];
+  if(!q){renderSummary(m);return}
+  s.answered=false;s.cur=null;s.pick=[];
+  var body;
+  if(q.type==='order'){
+    body='<div class="slots" id="ordSlots"></div><div class="opts chips" id="ordOpts"></div>';
+  }else if(q.type==='typed'){
+    body='<div class="ansrow"><input class="ans" id="qzAns" type="text" inputmode="numeric" autocomplete="off" dir="ltr" placeholder="כתבו כאן" aria-label="התשובה"><button class="btn go" data-act="check">'+(m==='test'?'אישור':'בדיקה')+'</button></div>';
+  }else{
+    body='<div class="'+(q.signs?'signs':'opts')+'" id="qzOpts">'+q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'"><bdi>'+o.t+'</bdi></button>'}).join('')+'</div>';
+  }
+  host.innerHTML='<div class="qwrap"><div class="qprog" aria-label="שאלה '+(s.i+1)+' מתוך '+s.qs.length+'">'+dotsHTML(s)+'</div>'+
+    '<div class="qtag">'+TN[q.topic]+'</div><div class="qprompt">'+q.prompt+'</div>'+
+    (q.num?'<div class="qnum">'+q.num+'</div>':'')+body+
+    '<div class="msg good" id="qzMsg" hidden aria-live="polite"></div>'+
+    '<div class="row center">'+(q.say?'<button class="btn soft" data-act="speak">הקראה</button>':'')+
+    (q.type==='order'?'<button class="btn soft" data-act="undo">ביטול בחירה</button>':'')+
+    '<button class="btn go" data-act="next" hidden>'+(s.i===s.qs.length-1?(m==='test'?'סיום המבחן':'לסיכום'):'לשאלה הבאה')+'</button></div></div>';
+  if(q.type==='order')renderOrder(m);
+}
+function renderOrder(m){
+  var s=S[m],q=s.qs[s.i],slots='',chips='',i;
+  for(i=0;i<q.items.length;i++){
+    var pv=s.pick[i],cl='slot';
+    if(pv!==undefined){
+      cl+=' f';
+      if(s.answered)cl+=(q.items[pv]===q.sorted[i]?' ok':' no');
+    }
+    slots+='<span class="'+cl+'"><bdi>'+(pv!==undefined?fmt(q.items[pv]):'')+'</bdi></span>';
+    if(i<q.items.length-1)slots+='<span class="sg">'+(q.asc?'&lt;':'&gt;')+'</span>';
+    var used=s.pick.indexOf(i)>=0;
+    chips+='<button class="opt'+(used?' used':'')+'" data-o="'+i+'"'+((used||s.pick.length===q.items.length)?' disabled':'')+'><bdi>'+fmt(q.items[i])+'</bdi></button>';
+  }
+  $('#ordSlots').innerHTML=slots;
+  $('#ordOpts').innerHTML=chips;
+}
+function finishAnswer(m,ok){
+  var s=S[m],q=s.qs[s.i],host=$(HOST[m]);
+  s.cur={ok:ok};
+  if(m==='practice'){
+    s.answered=true;
+    var msg=host.querySelector('#qzMsg');
+    msg.hidden=false;msg.className='msg '+(ok?'good':'tip');
+    msg.innerHTML=(ok?'נכון מאוד! ':'כמעט. ')+q.explain;
+    if(ok){addStars(1);sWin();confetti()}else sBad();
+  }
+  host.querySelector('[data-act="next"]').hidden=false;
+}
+function renderSummary(m){
+  var s=S[m],host=$(HOST[m]),tot=s.qs.length,ok=s.res.filter(Boolean).length,h;
+  if(m==='practice'){
+    var perfect=(ok===tot);
+    if(perfect){addStars(3);sWin();confetti()}
+    var msg=perfect?'מושלם! כל התשובות נכונות.':(ok>=tot-2?'כל הכבוד, כמעט מושלם!':'יפה מאוד. עוד סיבוב ויהיה קל יותר.');
+    h='<div class="summary"><div class="big">'+ok+' מתוך '+tot+'</div><div class="words">'+msg+'</div><div class="eq">'+(perfect?'בונוס: 3 כוכבים':'כל תשובה נכונה הוסיפה כוכב')+'</div>'+
+      '<div class="row center"><button class="btn go" data-act="again">סיבוב נוסף</button><button class="btn soft" data-act="menu">בחירת נושא</button></div></div>';
+  }else{
+    var st=ok>=11?3:(ok>=9?2:(ok>=6?1:0));
+    if(st)addStars(st);
+    if(ok>=9){sWin();confetti()}
+    var rows='',wrongs='';
+    TK.forEach(function(k){
+      var c=0,g=0;
+      s.qs.forEach(function(q,i){if(q.topic===k){c++;if(s.res[i])g++}});
+      rows+='<div class="trow"><span><b>'+TN[k]+'</b></span><span class="tscore'+(g===c?' full':'')+'">'+g+' מתוך '+c+'</span>'+(g<c?'<button class="mini-btn" data-act="drill" data-t="'+k+'">לתרגל</button>':'<span></span>')+'</div>';
+    });
+    s.qs.forEach(function(q,i){
+      if(!s.res[i])wrongs+='<div class="wrong"><b>'+TN[q.topic]+'</b><div>'+q.explain+'</div></div>';
+    });
+    var msg2=ok>=tot-1?'מצוין! אתם מוכנים למבחן.':(ok>=9?'עבודה טובה. כדאי לחזור על מה שהתבלבל.':'אפשר להשתפר. בחרו נושא לתרגול ונסו שוב.');
+    h='<div class="summary"><div class="big">'+ok+' מתוך '+tot+'</div><div class="words">'+msg2+'</div>'+(st?'<div class="eq">קיבלתם '+st+(st===1?' כוכב':' כוכבים')+'</div>':'')+'</div>'+
+      '<div class="tlist">'+rows+'</div>'+
+      (wrongs?'<h3 class="sub3">מה כדאי לחזור עליו</h3><div class="wlist">'+wrongs+'</div>':'')+
+      '<div class="row center"><button class="btn go" data-act="start">מבחן חדש</button></div>';
+  }
+  host.innerHTML=h;
+}
+function handleSession(m,e){
+  var t=e.target,s=S[m],b;
+  b=t.closest('[data-r]');
+  if(b){
+    sClick();R=+b.dataset.r;
+    try{localStorage.setItem('nb_range',String(R))}catch(x){}
+    ['practice','test'].forEach(function(k){if(!S[k])showStart(k)});
     return;
   }
-  var dots='';
-  for(var i=0;i<qz.qs.length;i++){
-    var cl='qd';if(i<qz.res.length)cl+=qz.res[i]?' ok':' no';else if(i===qz.i)cl+=' now';
-    dots+='<span class="'+cl+'"></span>';
+  b=t.closest('[data-t]:not([data-act])');
+  if(b&&m==='practice'&&!s){sClick();startSession('practice',b.dataset.t);return}
+  b=t.closest('[data-act]');
+  if(b){
+    var a=b.dataset.act;
+    if(a==='start'){sClick();startSession(m,'all');return}
+    if(a==='again'){sClick();startSession('practice',s.topic);return}
+    if(a==='menu'){sClick();showStart('practice');return}
+    if(a==='drill'){sClick();show('practice');startSession('practice',b.dataset.t);return}
+    if(!s)return;
+    var q=s.qs[s.i];
+    if(a==='speak'){if(q&&q.say)speak(q.say);return}
+    if(a==='check'){
+      if(!q||q.type!=='typed'||s.answered||s.cur)return;
+      var inp=$(HOST[m]).querySelector('#qzAns'),tv=parseTyped(inp.value);
+      if(isNaN(tv)){toast('כתבו מספר בספרות');return}
+      var okT=(tv===q.ans);
+      inp.disabled=true;b.hidden=true;
+      if(m==='practice')inp.classList.add(okT?'ok':'no');
+      finishAnswer(m,okT);
+      return;
+    }
+    if(a==='undo'){
+      if(!q||q.type!=='order'||(m==='practice'&&s.answered))return;
+      sClick();s.pick.pop();s.cur=null;renderOrder(m);
+      $(HOST[m]).querySelector('[data-act="next"]').hidden=true;
+      return;
+    }
+    if(a==='next'){
+      sClick();s.res.push(s.cur?s.cur.ok:false);s.i++;renderSession(m);
+      window.scrollTo({top:0});
+      return;
+    }
+    return;
   }
-  body.innerHTML='<div style="display:grid;gap:14px"><div class="qprog" aria-label="שאלה '+(qz.i+1)+' מתוך '+qz.qs.length+'">'+dots+'</div>'+
-    '<div class="qtag">'+q.tag+'</div><div class="qprompt">'+q.prompt+'</div><div class="qnum">'+q.num+'</div>'+
-    '<div class="opts" id="qzOpts">'+q.opts.map(function(o,i){return '<button class="opt" data-i="'+i+'"><bdi>'+o.t+'</bdi></button>'}).join('')+'</div>'+
-    '<div class="msg good" id="qzMsg" hidden aria-live="polite"></div>'+
-    '<div class="row center"><button class="btn soft" id="qzSpeak">הקראת השאלה</button><button class="btn go" id="qzNext" hidden>'+(qz.i===qz.qs.length-1?'לסיכום':'לשאלה הבאה')+'</button></div></div>';
-  qz.answered=false;
+  if(!s)return;
+  var q2=s.qs[s.i];
+  if(!q2)return;
+  b=t.closest('button.opt[data-i]');
+  if(b&&q2.type!=='order'){
+    if(m==='practice'&&s.answered)return;
+    var idx=+b.dataset.i,ok=q2.opts[idx].ok,all=$(HOST[m]).querySelectorAll('#qzOpts .opt'),i;
+    if(m==='test'){
+      sClick();
+      for(i=0;i<all.length;i++)all[i].classList.toggle('sel',i===idx);
+      finishAnswer(m,ok);
+      return;
+    }
+    for(i=0;i<all.length;i++){all[i].disabled=true;if(q2.opts[i].ok)all[i].classList.add('ok')}
+    if(!ok)b.classList.add('no');
+    finishAnswer(m,ok);
+    return;
+  }
+  b=t.closest('button[data-o]');
+  if(b&&q2.type==='order'){
+    if(m==='practice'&&s.answered)return;
+    if(s.pick.length>=q2.items.length)return;
+    sClick();s.pick.push(+b.dataset.o);
+    var done=(s.pick.length===q2.items.length);
+    if(done){
+      var okO=s.pick.every(function(j,i2){return q2.items[j]===q2.sorted[i2]});
+      if(m==='practice')s.answered=true;
+      renderOrder(m);
+      finishAnswer(m,okO);
+    }else renderOrder(m);
+  }
 }
-$('#qzBody').addEventListener('click',function(e){
-  var t=e.target;
-  if(t.closest('#qzAgain')){sClick();startQuiz();return}
-  if(t.closest('#qzSpeak')){var q0=qz.qs[qz.i];if(q0){var tmp=document.createElement('div');tmp.innerHTML=q0.num;speak(q0.prompt.replace('הספרה המסומנת','הספרה המסומנת')+' '+tmp.textContent+' '+q0.opts.map(function(o){return o.t}).join('. '))}return}
-  if(t.closest('#qzNext')){sClick();qz.i++;renderQuiz();return}
-  var b=t.closest('button.opt');if(!b||qz.answered)return;
-  qz.answered=true;
-  var q=qz.qs[qz.i],idx=+b.dataset.i,ok=q.opts[idx].ok;
-  var all=document.querySelectorAll('#qzOpts .opt');
-  for(var i=0;i<all.length;i++){all[i].disabled=true;if(q.opts[i].ok)all[i].classList.add('ok')}
-  if(!ok)b.classList.add('no');
-  qz.res.push(ok);
-  var m=$('#qzMsg');m.hidden=false;m.className='msg '+(ok?'good':'tip');
-  m.textContent=(ok?'נכון מאוד! ':'כמעט. ')+q.explain;
-  if(ok){addStars(1);sWin();confetti()}else sBad();
-  $('#qzNext').hidden=false;
+['practice','test'].forEach(function(m){
+  $(HOST[m]).addEventListener('click',function(e){handleSession(m,e)});
+  $(HOST[m]).addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&e.target.id==='qzAns'){e.preventDefault();var c=$(HOST[m]).querySelector('[data-act="check"]');if(c&&!c.hidden)c.click()}
+  });
 });
 
 /* ---------- init ---------- */
@@ -697,7 +1167,8 @@ $('#stars').textContent=stars;
 buildBank();
 renderEx();
 newMission(false);
-startQuiz();
+showStart('practice');
+showStart('test');
 var h=(location.hash||'').slice(1);
 if(TABS.indexOf(h)>=0)show(h);
 })();
