@@ -1,4 +1,8 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>בנק המספרים של אלודי</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -7,6 +11,7 @@
 <style>
 /* Layout: a squared maths notebook. One paper sheet per mode; base-ten blocks and four place colours (thousands, hundreds, tens, ones) are the visual language everywhere. Place-value rows always run left to right (thousands on the left) so they match how the digits are written. */
 :root{
+  color-scheme:light;
   --bg:#f4f7fb; --grid:#dfe7f2; --paper:#ffffff; --paper2:#eef3f9; --ink:#1b2742; --muted:#5b6784; --line:#cdd7e6;
   --th:#6b4fd8; --th-soft:#ebe6fc; --th-deep:#4a33a8;
   --hu:#2b78d8; --hu-soft:#e1eefc; --hu-deep:#1c58a5;
@@ -110,9 +115,16 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
 .readout{background:var(--paper2);border-radius:14px;padding:12px;display:grid;gap:8px;justify-items:center;text-align:center}
 .eq{color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums;text-wrap:balance}
 .words{font-weight:500;text-wrap:balance}
-.coach{border-radius:12px;padding:10px 14px;background:var(--warn-soft);color:var(--warn);font-weight:500;min-height:3.4em;display:flex;align-items:center}
+.coach{border-radius:12px;padding:10px 14px;background:var(--warn-soft);color:var(--warn);font-weight:500}
 .coach.ok{background:var(--good-soft);color:var(--good)}
 
+.wordsrow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.mini-btn{padding:4px 12px;border-radius:999px;background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--line);font-size:.85rem;font-weight:500;color:var(--muted)}
+.legendbox{background:var(--paper2);border-radius:12px;padding:10px 12px}
+.legendbox summary{cursor:pointer;font-weight:500;color:var(--muted)}
+.legendbox .legend{margin-top:10px}
+#presets .pill{padding:6px 12px;font-size:.92rem}
+[hidden]{display:none!important}
 /* explore board */
 .board{direction:ltr;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .col{direction:rtl;background:var(--pcs);border:2px solid var(--pc);border-radius:14px;padding:8px 6px;display:grid;gap:8px;align-content:start;text-align:center;min-width:0}
@@ -188,6 +200,8 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
 }
 @media (prefers-reduced-motion:reduce){.cf{display:none}*{animation:none!important;transition:none!important}}
 </style>
+</head>
+<body>
 
 <div class="app" dir="rtl" lang="he">
   <header class="top">
@@ -210,17 +224,16 @@ h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
   <!-- EXPLORE -->
   <section class="sheet" id="tab-explore">
     <h2>מכונת ההחלפות</h2>
-    <p class="lead">כל 10 קוביות באותו מקום שוות לקוביה אחת במקום שמשמאלו. הוסיפו והסירו, ארזו ופרקו, ושימו לב שהמספר לא משתנה.</p>
-    <div class="legend" id="legend"></div>
-    <div class="row" id="presets"></div>
+    <p class="lead">לחצו + ו־− כדי לבנות מספר. כשיש 10 במקום אחד, מחליפים אותם ב־1 במקום הבא.</p>
     <div class="readout">
       <div id="exNum"></div>
       <div class="eq" id="exEq"></div>
-      <div class="words" id="exWords"></div>
-      <button class="btn soft" id="exSpeak">הקראה</button>
+      <div class="wordsrow"><span class="words" id="exWords"></span><button class="mini-btn" id="exSpeak">הקראה</button></div>
     </div>
-    <div class="coach" id="exCoach" aria-live="polite"></div>
+    <div class="coach" id="exCoach" aria-live="polite" hidden></div>
     <div class="board" id="exBoard"></div>
+    <div class="row center" id="presets"></div>
+    <details class="legendbox"><summary>מה הקוביות שוות?</summary><div class="legend" id="legend"></div></details>
   </section>
 
   <!-- BANK -->
@@ -383,9 +396,7 @@ var ex=digitsOf(2347);
   }).join('');
   $('#presets').innerHTML=[2347,1205,4090,3600].map(function(n){return '<button class="pill" data-n="'+n+'">'+fmt(n)+'</button>'}).join('')+'<button class="pill" data-n="0">מספר אקראי</button>';
   $('#exBoard').innerHTML=[3,2,1,0].map(function(p){
-    var pack=p<3?'<button class="xb" id="xp'+p+'" data-a="pack" data-p="'+p+'">אריזה: 10 '+PL[p].p+' ל־1 '+PL[p+1].s+'</button>':'<button class="xb ghost" disabled tabindex="-1" aria-hidden="true">—</button>';
-    var unp=p>0?'<button class="xb" id="xu'+p+'" data-a="unpack" data-p="'+p+'">פירוק: 1 '+PL[p].s+' ל־10 '+PL[p-1].p+'</button>':'<button class="xb ghost" disabled tabindex="-1" aria-hidden="true">—</button>';
-    return '<div class="col '+PL[p].cls+'" id="xc'+p+'"><div class="chead"><b>'+PL[p].name+'</b><span>'+fmt(PL[p].val)+'</span></div><div class="cnum" id="xn'+p+'">0</div><div class="stack" id="xs'+p+'"></div><div class="cctl"><button class="rb" id="xm'+p+'" data-a="sub" data-p="'+p+'" aria-label="הסירו '+PL[p].s+'">−</button><button class="rb" id="xa'+p+'" data-a="add" data-p="'+p+'" aria-label="הוסיפו '+PL[p].s+'">+</button></div>'+pack+unp+'</div>';
+    return '<div class="col '+PL[p].cls+'" id="xc'+p+'"><div class="chead"><b>'+PL[p].name+'</b><span>'+fmt(PL[p].val)+'</span></div><div class="cnum" id="xn'+p+'">0</div><div class="stack" id="xs'+p+'"></div><div class="cctl"><button class="rb" id="xm'+p+'" data-a="sub" data-p="'+p+'" aria-label="הסירו '+PL[p].s+'">−</button><button class="rb" id="xa'+p+'" data-a="add" data-p="'+p+'" aria-label="הוסיפו '+PL[p].s+'">+</button></div><button class="xb ghost" id="xe'+p+'" data-a="pack" data-p="'+p+'" disabled tabindex="-1">—</button></div>';
   }).join('');
 })();
 function exTotal(){return valueOf(ex)}
@@ -398,25 +409,20 @@ function renderEx(){
     renderBlocks($('#xs'+p),p,c,c>9?.6:1,30);
     $('#xa'+p).disabled=(c>=EXADD||total+PL[p].val>9999);
     $('#xm'+p).disabled=(c<=0);
-    if(p<3){var pk=$('#xp'+p);pk.disabled=(c<10);pk.classList.toggle('ready',c>=10)}
-    if(p>0){$('#xu'+p).disabled=(c<1||ex[p-1]+10>EXMAX)}
+    var xe=$('#xe'+p);
+    if(p<3&&c>=10){xe.dataset.a='pack';xe.textContent='החליפו 10 ב־1 '+PL[p+1].s;xe.className='xb ready';xe.disabled=false;xe.tabIndex=0}
+    else if(p>0&&c>=1&&ex[p-1]+10<=EXMAX){xe.dataset.a='unpack';xe.textContent='פרקו 1 ל־10 '+PL[p-1].p;xe.className='xb';xe.disabled=false;xe.tabIndex=0}
+    else{xe.className='xb ghost';xe.disabled=true;xe.tabIndex=-1}
   }
   var canon=(over<0);
-  $('#exNum').innerHTML=canon?digitsHTML(total,{labels:true}):'<div class="numrow"><span class="dg plain">'+fmt(total)+'</span></div>';
+  $('#exNum').innerHTML=canon?digitsHTML(total):'<div class="numrow"><span class="dg plain">'+fmt(total)+'</span></div>';
   $('#exEq').textContent=exprOf(ex)+' = '+fmt(total);
   $('#exWords').textContent=words(total);
   var coach=$('#exCoach');
   if(!canon){
-    coach.className='coach';
-    coach.textContent='יש '+ex[over]+' '+PL[over].p+'. כל 10 '+PL[over].p+' שוות 1 '+PL[over+1].s+'. לחצו על "אריזה" ותראו שהמספר נשאר אותו דבר.';
-  }else{
-    coach.className='coach ok';
-    var zs=[];for(p=3;p>=0;p--){if(ex[p]===0&&p<String(total).length)zs.push(PL[p].name)}
-    var t='בכל מקום יש פחות מ־10, אז כותבים ספרה אחת בכל מקום. ';
-    if(zs.length)t+='הספרה 0 אומרת שאין '+zs.join(' ו')+'. ';
-    t+='נסו לפרק אחת מהקוביות הגדולות לעשר קטנות.';
-    coach.textContent=t;
-  }
+    coach.hidden=false;
+    coach.textContent='יש '+ex[over]+' '+PL[over].p+'. לחצו על הכפתור הירוק כדי להחליף 10 מהן ב־1 '+PL[over+1].s+'.';
+  }else{coach.hidden=true}
 }
 function exSet(n){ex=digitsOf(n);renderEx()}
 $('#presets').addEventListener('click',function(e){
@@ -697,4 +703,5 @@ if(TABS.indexOf(h)>=0)show(h);
 })();
 </script>
 
-</body></html>
+</body>
+</html>
